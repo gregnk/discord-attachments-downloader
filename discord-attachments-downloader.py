@@ -1,5 +1,5 @@
 '''
-discord-attachments-downloader v1.0.0 (2023-08-26)
+discord-attachments-downloader v1.0.1 (2023-08-26)
 https://github.com/gregnk/discord-attachments-downloader
 
 By Gregory Karastergios
@@ -21,6 +21,8 @@ How to use
 ==========================
 1. Place this script at the root of the data package folder
 2. Run the script
+
+The files will be downloaded to /attachments
 
 Copyright
 ==========================
