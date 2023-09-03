@@ -70,7 +70,7 @@ def filter_channel_id(id_str):
     return id_str[12:]
 
 def print_current_time():
-    print("Current Time: " + datetime.now().strftime("%Y-%m-%d @ %I:%M:%S %p"))
+    print("Current time: " + datetime.now().strftime("%Y-%m-%d @ %I:%M:%S %p"))
 
 def get_channel_index():
     if (len(sys.argv) >= 2):
