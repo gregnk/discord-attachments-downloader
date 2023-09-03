@@ -1,5 +1,5 @@
 '''
-discord-attachments-downloader v1.0.1 (2023-08-26)
+discord-attachments-downloader v1.0.2 (2023-09-03)
 https://github.com/gregnk/discord-attachments-downloader
 
 By Gregory Karastergios
