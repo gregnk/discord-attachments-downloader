@@ -164,7 +164,6 @@ while channel_index < channel_len:
                 
                 for word in attachments_list:
                     # If it contains an attachment link, download it
-                    #print(word[:39])
                     
                     if (word[:39] == "https://cdn.discordapp.com/attachments/"):
                     
