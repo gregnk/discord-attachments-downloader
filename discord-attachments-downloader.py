@@ -88,7 +88,7 @@ def remove_forbidden_dir_chars(dir_str):
         forbidden_chars = ['/']
     
     for char in forbidden_chars:
-        dir_str = dir_str.replace(char, "–")
+        dir_str = dir_str.replace(char, "-")
         
     return dir_str
     
