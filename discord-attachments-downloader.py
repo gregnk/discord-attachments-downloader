@@ -70,6 +70,9 @@ def filter_channel_id(id_str):
 def print_current_time():
     print("Current time: " + datetime.now().strftime("%Y-%m-%d @ %I:%M:%S %p"))
 
+def print_error_msg():
+    print(text_color.RED + "=== Could not download file" + text_color.RESET)
+
 def get_channel_index():
     if (len(sys.argv) >= 2):
         if (sys.argv[1].isnumeric() == False):
@@ -192,12 +195,12 @@ while channel_index < channel_len:
                                 open(file_path, 'wb').write(r.content)
 
                             except requests.exceptions.HTTPError as e:
-                                print("=== Could not download file")
+                                print_error_msg()
                                 print(e)
                             except requests.exceptions.Timeout:
-                                print("=== Could not download file")
+                                print_error_msg()
                             except requests.exceptions.RequestException as e:
-                                print("=== Could not download file")
+                                print_error_msg()
                                 print(e)
                                 sys.exit()
                         
