@@ -70,7 +70,7 @@ def get_messages_dir():
     return "messages"
 
 def filter_channel_id(id_str):
-    return id_str[12:]
+    return id_str[10:]
 
 def print_current_time():
     print("Current time: " + datetime.now().strftime("%Y-%m-%d @ %I:%M:%S %p"))
