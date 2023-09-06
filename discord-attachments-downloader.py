@@ -47,8 +47,6 @@ from datetime import datetime
 import ctypes
 import json
 import requests
-import urllib
-import hashlib
 
 def get_os_dir_slash():
     if os.name == 'nt':
