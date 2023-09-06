@@ -48,6 +48,11 @@ import ctypes
 import json
 import requests
 
+class text_color:
+    CYAN = "\033[36m"
+    RED = "\033[31m"
+    RESET = "\033[0m"
+
 def get_os_dir_slash():
     if os.name == 'nt':
         return "\\"
@@ -99,7 +104,10 @@ def remove_end_newline(input_str):
         return input_str[:-1]
     else:
         return input_str
-    
+
+def color_str(output, color):
+    return "{}{}{}".format(color, output, text_color.RESET)
+
 # Get each subdir in the messages dir
 channels = [ f.path for f in os.scandir(get_messages_dir()) if f.is_dir() ]
 
