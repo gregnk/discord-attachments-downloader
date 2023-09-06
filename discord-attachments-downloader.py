@@ -180,7 +180,7 @@ while channel_index < channel_len:
                         
                         file_path = server_channel_attachments_dir + get_os_dir_slash() + file_name
                         
-                        print("* Downloading {} to {}".format(remove_end_newline(word), file_path), end='')
+                        print(("* Downloading {} to  {} ").format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='')
                         if (os.path.exists(file_path) == False):
                             print("")
                             
