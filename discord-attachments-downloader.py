@@ -111,15 +111,15 @@ print("Channels: " + channels_len_str)
 channel_index = get_channel_index()
 channel_index_1 = channel_index + 1
 
-if (os.path.isdir("attachments\\") == False):
-    os.mkdir("attachments\\")
+if (os.path.isdir("attachments" + get_os_dir_slash()) == False):
+    os.mkdir("attachments" + get_os_dir_slash())
 
 while channel_index < channel_len:
 
     # The name of the channel and the server in the JSON file
     channel_dir = channels[channel_index]
     
-    channel_json_file = open("{}\\channel.json".format(channel_dir))
+    channel_json_file = open("{}{}channel.json".format(channel_dir, get_os_dir_slash()))
     
     channel_json_data = json.load(channel_json_file)
     channel_json_file.close()
@@ -128,10 +128,10 @@ while channel_index < channel_len:
     if channel_json_data.get("guild") != None:
     
         server_attachments_name = channel_json_data["guild"]["name"]
-        server_attachments_dir = "attachments\\" + remove_forbidden_dir_chars(server_attachments_name)
+        server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name)
         
         server_channel_attachments_name = channel_json_data["name"]
-        server_channel_attachments_dir = "attachments\\" + remove_forbidden_dir_chars(server_attachments_name) + "\\" + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
+        server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
         
         # Update the window title (Windows Terminal only)
         if os.name == 'nt':
@@ -147,7 +147,7 @@ while channel_index < channel_len:
         print("====================")
         
         # Open the CSV file
-        channel_csv_file = open("{}\\messages.csv".format(channel_dir), encoding='utf-8', errors='replace')
+        channel_csv_file = open("{}{}messages.csv".format(channel_dir, get_os_dir_slash()), encoding='utf-8', errors='replace')
         
         channel_csv_rows = channel_csv_file.readlines()
         
@@ -170,7 +170,7 @@ while channel_index < channel_len:
                     
                         file_name = msg_id + "_" + str(attachment_list_count) + "_" + remove_end_newline(os.path.basename(word))
                         
-                        file_path = server_channel_attachments_dir + "\\" + file_name
+                        file_path = server_channel_attachments_dir + get_os_dir_slash() + file_name
                         
                         print("* Downloading {} to {}".format(remove_end_newline(word), file_path), end='')
                         if (os.path.exists(file_path) == False):
