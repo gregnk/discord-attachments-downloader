@@ -202,7 +202,7 @@ while channel_index < channel_len:
                                 sys.exit()
                         
                         else:
-                            print(" - File already exists")
+                            print("- File already exists")
                             
                         attachment_list_count += 1
         
