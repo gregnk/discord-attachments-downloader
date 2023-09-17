@@ -227,7 +227,6 @@ while channel_index < channel_len:
         print_current_time()
         print("====================")
         
-    #time.sleep(30)
         
     
     
