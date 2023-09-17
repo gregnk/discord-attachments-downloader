@@ -141,13 +141,18 @@ while channel_index < channel_len:
         server_channel_attachments_name = channel_json_data["name"]
         server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
         
-        # Update the window title (Windows Terminal only)
+        # Update the window title
         if os.name == 'nt':
             try:
                 ctypes.windll.kernel32.SetConsoleTitleW("{}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str))
             except:
                 dummy = 0
-            
+        if os.name == 'posix':
+            try:
+                print("\x1b]2;{}/{} ({}/{})\x07".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str))
+            except:
+                dummy = 0
+
         print("====================")
         print("Downloading {}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str))
         print("ID {}".format(filter_channel_id(channel_dir)))
