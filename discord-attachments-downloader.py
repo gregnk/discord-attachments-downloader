@@ -100,10 +100,9 @@ def print_log(msg, end='\n'):
 
 def get_channel_index():
     if (len(sys.argv) >= 2):
-
         arg_index = 0
         for arg in sys.argv:
-            if (arg == "--index"):
+            if (arg == "--index" or arg == "-i"):
                 return sys.argv[arg_index + 1]
                 
             arg_index += 1
