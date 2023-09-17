@@ -47,6 +47,9 @@ from datetime import datetime
 import ctypes
 import json
 import requests
+import re
+
+logging = True
 
 class text_color:
     CYAN = "\033[36m"
@@ -75,16 +78,35 @@ def filter_channel_id(id_str):
 def get_current_time():
     return datetime.now().strftime("%Y-%m-%d @ %I:%M:%S %p")
 
+def get_iso_time():
+    return datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
+
 def print_current_time():
     print_log("Current time: " + get_current_time())
 
 def print_error_msg():
-    print(text_color.RED + "=== Could not download file" + text_color.RESET)
+    print_log(text_color.RED + "=== Could not download file" + text_color.RESET)
+
+def print_log(msg, end='\n'):
+
+    print(msg, end=end)
+
+    if (logging):
+        # Remove color codes when outputting to file
+        msg = re.sub("\\033\[[\d\w]{1,3}", "", msg)
+
+        with open(LOGFILE_NAME, 'a', encoding="utf-8") as f:
+            f.write(msg + end)
 
 def get_channel_index():
     if (len(sys.argv) >= 2):
-        if (sys.argv[1].isnumeric() == False):
-            return sys.argv[1]
+
+        arg_index = 0
+        for arg in sys.argv:
+            if (arg == "--index"):
+                return sys.argv[arg_index + 1]
+                
+            arg_index += 1
     
     return 0
 
@@ -106,13 +128,15 @@ def remove_end_newline(input_str):
 def color_str(output, color):
     return "{}{}{}".format(color, output, text_color.RESET)
 
+LOGFILE_NAME = '{}.log'.format(get_iso_time())
+
 # Get each subdir in the messages dir
 channels = [ f.path for f in os.scandir(get_messages_dir()) if f.is_dir() ]
 
 channel_len = len(channels) - 1
 channels_len_str = str(channel_len)
 
-print("Channels: " + channels_len_str)
+print_log("Channels: " + channels_len_str)
 
 channel_index = get_channel_index()
 channel_index_1 = channel_index + 1
@@ -151,11 +175,12 @@ while channel_index < channel_len:
             except:
                 dummy = 0
 
-        print("====================")
-        print("Downloading {}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str))
-        print("ID {}".format(filter_channel_id(channel_dir)))
+        # Print the current server and channel
+        print_log("====================")
+        print_log("Downloading {}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str))
+        print_log("ID {}".format(filter_channel_id(channel_dir)))
         print_current_time()
-        print("====================")
+        print_log("====================")
         
         # Open the CSV file
         channel_csv_file = open("{}{}messages.csv".format(channel_dir, get_os_dir_slash()), encoding='utf-8', errors='replace')
@@ -183,9 +208,9 @@ while channel_index < channel_len:
                         
                         file_path = server_channel_attachments_dir + get_os_dir_slash() + file_name
                         
-                        print(("* Downloading {} to  {} ").format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='')
+                        print_log("* Downloading {} to {} ".format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='')
                         if (os.path.exists(file_path) == False):
-                            print("")
+                            print_log("")
                             
                             # Create the dirs if they don't already exist
                             if (os.path.isdir(server_attachments_dir) == False):
@@ -207,33 +232,32 @@ while channel_index < channel_len:
 
                             except requests.exceptions.HTTPError as e:
                                 print_error_msg()
-                                print(e)
+                                print_log(e)
                             except requests.exceptions.Timeout:
                                 print_error_msg()
                             except requests.exceptions.RequestException as e:
                                 print_error_msg()
-                                print(e)
+                                print_log(e)
                                 sys.exit()
                         
                         else:
-                            print("- File already exists")
+                            print_log("- File already exists")
                             
                         attachment_list_count += 1
         
     # Display a message if the JSON file is not valid are not supported yet
     else:
-        print("====================")
-        print("ID {} ({}/{}) is invalid or not supported yet".format(filter_channel_id(channel_dir), channel_index, channels_len_str))
+        print_log("====================")
+        print_log("ID {} ({}/{}) is invalid or not supported yet".format(filter_channel_id(channel_dir), channel_index, channels_len_str))
         print_current_time()
-        print("====================")
-        
+        print_log("====================")
         
     
     
     channel_index += 1
     channel_index_1 += 1
     
-print("====================")
-print("Done")
+print_log("====================")
+print_log("Done")
 print_current_time()
-print("====================")
+print_log("====================")
