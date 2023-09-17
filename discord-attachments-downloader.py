@@ -12,10 +12,12 @@ of Discord messages from a Discord data package
 
 Usage
 ------------------------
-py ./discord-attachments-downloader.py [index]
+py ./discord-attachments-downloader.py [--index] (index) [--log]
 
-index is an optional parameter which specifies which part of the channel 
-list the downloader should start at.
+Parameters:
+
+* `--index` - Specifies which part of the channel list the downloader should start at.
+* `--log` - Enables logging the output to file
 
 How to use
 ------------------------
