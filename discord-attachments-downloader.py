@@ -109,6 +109,13 @@ def get_channel_index():
     
     return 0
 
+def check_logging_flag():
+    for arg in sys.argv:
+        if (arg == "--log" or arg == "-l"):
+            return True
+        
+    return False
+
 def remove_forbidden_dir_chars(dir_str):
     forbidden_chars = ['<', '>', '\"', '/', '\\', '|', '?', '*', ':']
     
@@ -128,6 +135,9 @@ def color_str(output, color):
     return "{}{}{}".format(color, output, text_color.RESET)
 
 LOGFILE_NAME = '{}.log'.format(get_iso_time())
+
+# Enable logging if the flag is passed
+logging = check_logging_flag()
 
 # Get each subdir in the messages dir
 channels = [ f.path for f in os.scandir(get_messages_dir()) if f.is_dir() ]
