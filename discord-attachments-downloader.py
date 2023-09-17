@@ -72,8 +72,11 @@ def get_messages_dir():
 def filter_channel_id(id_str):
     return id_str[10:]
 
+def get_current_time():
+    return datetime.now().strftime("%Y-%m-%d @ %I:%M:%S %p")
+
 def print_current_time():
-    print("Current time: " + datetime.now().strftime("%Y-%m-%d @ %I:%M:%S %p"))
+    print_log("Current time: " + get_current_time())
 
 def print_error_msg():
     print(text_color.RED + "=== Could not download file" + text_color.RESET)
