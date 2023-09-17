@@ -89,12 +89,7 @@ def get_channel_index():
     return 0
 
 def remove_forbidden_dir_chars(dir_str):
-    forbidden_chars = []
-
-    if os.name == 'nt':
-        forbidden_chars = ['<', '>', '\"', '/', '\\', '|', '?', '*', ':']
-    elif os.name == 'posix':
-        forbidden_chars = ['/']
+    forbidden_chars = ['<', '>', '\"', '/', '\\', '|', '?', '*', ':']
     
     for char in forbidden_chars:
         dir_str = dir_str.replace(char, "-")
