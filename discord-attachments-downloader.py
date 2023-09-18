@@ -51,6 +51,8 @@ import json
 import requests
 import re
 
+MESSAGES_DIR = "messages"
+
 logging = True
 
 class text_color:
@@ -70,9 +72,6 @@ def get_os_dir_slash():
         
     else:
         raise Exception("Unsupported OS")
-        
-def get_messages_dir():
-    return "messages"
 
 def filter_channel_id(id_str):
     return id_str[10:]
@@ -142,7 +141,7 @@ LOGFILE_NAME = '{}.log'.format(get_iso_time())
 logging = check_logging_flag()
 
 # Get each subdir in the messages dir
-channels = [ f.path for f in os.scandir(get_messages_dir()) if f.is_dir() ]
+channels = [ f.path for f in os.scandir(MESSAGES_DIR) if f.is_dir() ]
 
 channel_len = len(channels) - 1
 channels_len_str = str(channel_len)
