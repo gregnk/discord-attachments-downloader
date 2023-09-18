@@ -1,2 +1,3 @@
 copy-to-testenv.cmd
+copy-to-wsl.cmd
 test.cmd
