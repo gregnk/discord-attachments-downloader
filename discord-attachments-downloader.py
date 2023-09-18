@@ -262,8 +262,6 @@ while channel_index < channel_len:
         print_current_time()
         print_log("====================")
         
-    
-    
     channel_index += 1
     channel_index_1 += 1
     
