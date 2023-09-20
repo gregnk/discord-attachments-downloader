@@ -184,7 +184,7 @@ def main():
                     dummy = 0
             if os.name == 'posix':
                 try:
-                    print("\x1b]2;window_title\x07".format(window_title))
+                    print("\x1b]2;{}\x07".format(window_title))
                 except:
                     dummy = 0
 
