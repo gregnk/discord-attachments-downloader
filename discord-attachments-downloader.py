@@ -50,6 +50,7 @@ import ctypes
 import json
 import requests
 import re
+import traceback
 
 MESSAGES_DIR = "messages"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
@@ -252,6 +253,8 @@ def main():
                                     print_error_msg()
                                     print_log(e)
                                     sys.exit()
+                                except Exception as e:
+                                    traceback.print_exc()
 
                                 print_log("- Done")
                             
