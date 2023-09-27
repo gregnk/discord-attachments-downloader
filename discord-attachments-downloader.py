@@ -16,7 +16,7 @@ py ./discord-attachments-downloader.py [--index] (index) [--log]
 
 Parameters:
 
-* `--index` - Specifies which part of the channel list the downloader should start at.
+* `--index` - Specifies which part of the channel list the downloader should start at
 * `--log` - Enables logging the output to file
 
 How to use

@@ -8,7 +8,7 @@ Usage
 
 Parameters:
 
-* `--index` - Specifies which part of the channel list the downloader should start at.
+* `--index` - Specifies which part of the channel list the downloader should start at
 * `--log` - Enables logging the output to file
 
 How to use
@@ -16,7 +16,7 @@ How to use
 1. Place this script at the root of the data package folder
 2. Run the script
 
-The files will be downloaded to /attachments
+The files will be downloaded to attachments/
 
 Copyright
 -------------------------------------
