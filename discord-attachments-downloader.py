@@ -224,7 +224,6 @@ def main():
                             
                             print_log("* Downloading {} to {} ".format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='')
                             if (os.path.exists(file_path) == False):
-                                print_log("")
                                 
                                 # Create the dirs if they don't already exist
                                 if (os.path.isdir(server_attachments_dir) == False):
@@ -253,6 +252,8 @@ def main():
                                     print_error_msg()
                                     print_log(e)
                                     sys.exit()
+
+                                print_log("- Done")
                             
                             else:
                                 print_log("- File already exists")
