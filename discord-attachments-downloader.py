@@ -52,6 +52,7 @@ import requests
 import re
 
 MESSAGES_DIR = "messages"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
 
 logging = True
 
@@ -236,7 +237,7 @@ def main():
                                     
                                     # Add a user agent, else Cloudflare wont let us download the link
                                     http_headers = {
-                                        'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+                                        'User-Agent': USER_AGENT,
                                     }
                                     
                                     # Get and save the file
