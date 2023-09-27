@@ -24,7 +24,7 @@ How to use
 1. Place this script at the root of the data package folder
 2. Run the script
 
-The files will be downloaded to /attachments
+The files will be downloaded to attachments/
 
 Copyright
 ------------------------
