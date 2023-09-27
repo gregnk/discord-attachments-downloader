@@ -51,7 +51,9 @@ import json
 import requests
 import re
 import traceback
+import time
 
+VER_STR = "v1.1.0 (2023-09-06)"
 MESSAGES_DIR = "messages"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
 
@@ -143,6 +145,26 @@ def main():
 
     # Enable logging if the flag is passed
     logging = check_logging_flag()
+
+    print_log('''
+discord-attachments-downloader {}
+https://github.com/gregnk/discord-attachments-downloader
+                       
+(c) 2023 Gregory Karastergios
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+    '''.format(VER_STR))
+    time.sleep(3)
 
     # Get each subdir in the messages dir
     channels = [ f.path for f in os.scandir(MESSAGES_DIR) if f.is_dir() ]
