@@ -30,8 +30,6 @@ import time
 MESSAGES_DIR = "messages"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
 
-logging = True
-
 class text_color:
         CYAN = "\033[36m"
         RED = "\033[31m"
@@ -112,12 +110,12 @@ def remove_end_newline(input_str):
 def color_str(output, color):
     return "{}{}{}".format(color, output, text_color.RESET)
 
+# Enable logging if the flag is passed
+logging = check_logging_flag()
+
 LOGFILE_NAME = '{}.log'.format(get_iso_time())
 
 def main():
-
-    # Enable logging if the flag is passed
-    logging = check_logging_flag()
 
     print_log(LICENSE_TEXT)
     time.sleep(3)
