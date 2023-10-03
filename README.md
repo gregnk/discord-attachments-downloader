@@ -4,7 +4,7 @@ A script which automatically downloads the attachments of Discord messages from 
 
 Usage
 -------------------------------------
-    py ./discord-attachments-downloader.py [--index] (index) [--log]
+    discord-attachments-downloader [--index] (index) [--log]
 
 Parameters:
 
