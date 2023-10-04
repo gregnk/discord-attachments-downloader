@@ -1,3 +1,4 @@
 *internal/
-distrib/
+build/
+dist/
 *.log
