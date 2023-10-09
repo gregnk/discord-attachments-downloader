@@ -118,7 +118,7 @@ LOGFILE_NAME = '{}.log'.format(get_iso_time())
 def main():
 
     print_log(LICENSE_TEXT)
-    time.sleep(3)
+    time.sleep(2)
 
     # Get each subdir in the messages dir
     channels = [ f.path for f in os.scandir(MESSAGES_DIR) if f.is_dir() ]
