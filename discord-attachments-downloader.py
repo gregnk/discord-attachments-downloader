@@ -131,6 +131,17 @@ def main():
     channel_index = get_channel_index()
     channel_index_1 = channel_index + 1
 
+    # Check if the index is a valid number
+    if (channel_index > channel_len):
+        print_log(color_str("=== ERROR: Index out of range", text_color.RED))
+        sys.exit()
+
+    # Check if the index is within range
+    if (type(channel_index) != int):
+        print_log(color_str("=== ERROR: Index must be a positive number", text_color.RED))
+        sys.exit()
+
+    # Create the attachments dir if it doesn't exist already
     if (os.path.isdir("attachments" + get_os_dir_slash()) == False):
         os.mkdir("attachments" + get_os_dir_slash())
 
