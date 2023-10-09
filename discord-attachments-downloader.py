@@ -69,7 +69,7 @@ def print_log(msg, end='\n'):
 
     if (logging):
         # Remove color codes when outputting to file
-        msg = re.sub("\\033\[[\d\w]{1,3}", "", msg)
+        msg = re.sub(r"\033\[[\d\w]{1,3}", "", msg)
 
         with open(LOGFILE_NAME, 'a', encoding="utf-8") as f:
             f.write(msg + end)
