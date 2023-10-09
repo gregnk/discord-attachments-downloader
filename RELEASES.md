@@ -1,3 +1,9 @@
+v1.2.0 (2023-10-09)
+------------------------
+* Added an option to log output to file
+* Added terminal window title for Unix systems
+* Fixed an oversight where file/folder names downloaded on Unix may be incompatible with Windows
+
 v1.1.0 (2023-09-06)
 ------------------------
 * Changed directory slash to match that of the OS
@@ -14,4 +20,4 @@ v1.0.1 (2023-08-26)
 
 v1.0.0 (2023-08-26)
 ------------------------
-* Inital release
+* Initial release
