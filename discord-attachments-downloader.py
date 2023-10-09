@@ -60,8 +60,8 @@ def get_iso_time():
 def print_current_time():
     print("Current time: " + get_current_time())
 
-def print_error_msg():
-    print_log(text_color.RED + "=== Could not download file" + text_color.RESET)
+def print_download_error_msg():
+    print_log(color_str("=== Could not download file", text_color.RED))
 
 def print_log(msg, end='\n'):
 
@@ -221,12 +221,12 @@ def main():
                                     open(file_path, 'wb').write(r.content)
 
                                 except requests.exceptions.HTTPError as e:
-                                    print_error_msg()
+                                    print_download_error_msg()
                                     print_log(e)
                                 except requests.exceptions.Timeout:
-                                    print_error_msg()
+                                    print_download_error_msg()
                                 except requests.exceptions.RequestException as e:
-                                    print_error_msg()
+                                    print_download_error_msg()
                                     print_log(e)
                                     sys.exit()
                                 except Exception as e:
