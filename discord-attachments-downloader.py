@@ -250,7 +250,7 @@ def main():
                                 
                             attachment_list_count += 1
             
-        # Display a message if the JSON file is not valid are not supported yet
+        # Display a message if the JSON file is not valid or not supported yet
         else:
             print_log("====================")
             print_log("ID {} ({}/{}) is invalid or not supported yet".format(filter_channel_id(channel_dir), channel_index, channels_len_str))
