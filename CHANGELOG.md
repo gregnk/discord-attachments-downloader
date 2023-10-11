@@ -1,4 +1,4 @@
-v1.2.1 (2023-10-DD) - FUTURE RELEASE
+v1.3.0 (2023-10-DD) - FUTURE RELEASE
 ------------------------
 * Added help flag
 * Added 3rd party licenses
