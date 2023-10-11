@@ -1,3 +1,8 @@
+v1.2.1 (2023-10-DD) - FUTURE RELEASE
+------------------------
+* Added help flag
+* Added 3rd party licenses
+
 v1.2.0 (2023-10-09)
 ------------------------
 * Added an option to log output to file
