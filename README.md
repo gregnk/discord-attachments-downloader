@@ -8,8 +8,9 @@ Usage
 
 Parameters:
 
-* `--index` - Specifies which part of the channel list the downloader should start at
+* `--index (index)` - Specifies which part of the channel list the downloader should start at
 * `--log` - Enables logging the output to file
+* `--licenses` - Display third-party license notices and then exit
 
 How to use
 -------------------------------------
