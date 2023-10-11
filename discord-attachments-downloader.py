@@ -107,6 +107,13 @@ def check_licenses_flag():
         
     return False
 
+def check_help_flag():
+    for arg in sys.argv:
+        if (arg == "--help" or arg == "-h"):
+            return True
+        
+    return False
+
 def remove_forbidden_dir_chars(dir_str):
     forbidden_chars = ['<', '>', '\"', '/', '\\', '|', '?', '*', ':']
     
@@ -137,6 +144,8 @@ def main():
 
     if (check_licenses_flag()):
         print(LICENSES_3RDPARTY_TEXT)
+    elif (check_help_flag()):   
+        dummy = 1
 
     else:
         time.sleep(2)
