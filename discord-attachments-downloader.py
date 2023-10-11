@@ -19,9 +19,21 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 LICENSES_3RDPARTY_TEXT = '''
 3rd Party Licenses
-====================================
+-------------------------------------
 
 requests - (c) 2019 Kenneth Reitz, Apache 2.0 <https://github.com/psf/requests/blob/main/LICENSE>
+'''
+
+HELP_TEXT = '''
+Usage
+-------------------------------------
+    discord-attachments-downloader [--index] (index) [--log]
+
+Parameters:
+
+* `--index (index)` - Specifies which part of the channel list the downloader should start at
+* `--log` - Enables logging the output to file
+* `--licenses` - Display third-party license notices and then exit
 '''
 
 import os
@@ -144,8 +156,9 @@ def main():
 
     if (check_licenses_flag()):
         print(LICENSES_3RDPARTY_TEXT)
+        
     elif (check_help_flag()):   
-        dummy = 1
+        print(HELP_TEXT)
 
     else:
         time.sleep(2)
