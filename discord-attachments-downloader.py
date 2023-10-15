@@ -200,6 +200,12 @@ def main():
             if (os.path.isdir("attachments" + get_os_dir_slash()) == False):
                 os.mkdir("attachments" + get_os_dir_slash())
 
+            # Load the index file
+            index_json_file = open("messages{}index.json".format(get_os_dir_slash()))
+                
+            index_json_data = json.load(index_json_file)
+            index_json_file.close()
+
             while channel_index < channel_len:
 
                 # The name of the channel and the server in the JSON file
@@ -212,6 +218,7 @@ def main():
                 
                 # Check if the channel is valid
 
+                valid = False
                 # Server channel
                 ####################################
                 if channel_json_data.get("guild") != None:
@@ -299,13 +306,42 @@ def main():
                                     attachment_list_count += 1
                     
                 # TODO: Move the shared parts of the above code
-
+                    
                 # Direct Message (DM)
                 ####################################
                 elif channel_json_data.get("recipients") != None:
-                    dummy = 1
 
+                    ###################################
+                    # NOT DONE!
+                    ###################################
+                    print(channel_json_data["recipients"][0])
+                    dm_attachments_name = index_json_data[filter_channel_id(channel_dir)]
+                    server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name)
                     
+                    #server_channel_attachments_name = channel_json_data["name"]
+                    server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
+                    
+                    # Update the window title
+                    window_title = "{} ({}/{})".format(dm_attachments_name, channel_index, channels_len_str)                
+                    update_terminal_window_title(window_title)
+
+                    # Print the current server and channel
+
+                    # Invalid or not supported
+                    ####################################
+                    if (str(dm_attachments_name) == "None"):
+                        print_log("====================")
+                        print_log("ID {} is empty".format(window_title))
+                        print_current_time()
+                        print_log("====================")
+
+                    else:
+                        print_log("====================")
+                        print_log("Downloading {}".format(window_title, channel_index, channels_len_str))
+                        print_log("ID {}".format(filter_channel_id(channel_dir)))
+                        print_current_time()
+                        print_log("====================")
+                    input()
 
                 # Invalid or not supported
                 ####################################
