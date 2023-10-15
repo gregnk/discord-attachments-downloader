@@ -307,7 +307,7 @@ def main():
 
                     
 
-                # Inavlid or not supported
+                # Invalid or not supported
                 ####################################
                 else:
                     print_log("====================")
