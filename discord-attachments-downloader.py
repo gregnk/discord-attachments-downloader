@@ -225,7 +225,7 @@ def main():
 
                     # Print the current server and channel
                     print_log("====================")
-                    print_log("Downloading {}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str))
+                    print_log("Downloading {}".format(window_title))
                     print_log("ID {}".format(filter_channel_id(channel_dir)))
                     print_current_time()
                     print_log("====================")
