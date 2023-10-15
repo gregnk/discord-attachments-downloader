@@ -1,3 +1,7 @@
+v1.4.0 (2023-10-DD) - FUTURE RELEASE
+------------------------
+* Added Support for DMs
+
 v1.3.0 (2023-10-15)
 ------------------------
 * Added help flag
