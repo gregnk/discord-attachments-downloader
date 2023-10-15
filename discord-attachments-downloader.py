@@ -145,6 +145,18 @@ def remove_end_newline(input_str):
 def color_str(output, color):
     return "{}{}{}".format(color, output, text_color.RESET)
 
+def update_terminal_window_title(window_title):
+    if os.name == 'nt':
+        try:
+            ctypes.windll.kernel32.SetConsoleTitleW(window_title)
+        except:
+            dummy = 0
+    if os.name == 'posix':
+        try:
+            print("\x1b]2;{}\x07".format(window_title))
+        except:
+            dummy = 0
+
 # Enable logging if the flag is passed
 logging = check_logging_flag()
 
@@ -208,17 +220,8 @@ def main():
                     server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
                     
                     # Update the window title
-                    window_title = "{}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str)
-                    if os.name == 'nt':
-                        try:
-                            ctypes.windll.kernel32.SetConsoleTitleW(window_title)
-                        except:
-                            dummy = 0
-                    if os.name == 'posix':
-                        try:
-                            print("\x1b]2;{}\x07".format(window_title))
-                        except:
-                            dummy = 0
+                    window_title = "{}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str)                
+                    update_terminal_window_title(window_title)
 
                     # Print the current server and channel
                     print_log("====================")
