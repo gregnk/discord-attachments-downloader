@@ -156,10 +156,10 @@ def main():
     print_log(LICENSE_TEXT)
 
     if (check_licenses_flag()):
-        print(LICENSES_3RDPARTY_TEXT)
+        print_log(LICENSES_3RDPARTY_TEXT)
 
     elif (check_help_flag()):   
-        print(HELP_TEXT)
+        print_log(HELP_TEXT)
 
     else:
         time.sleep(2)
