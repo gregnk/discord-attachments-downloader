@@ -211,6 +211,9 @@ def main():
                 channel_json_file.close()
                 
                 # Check if the channel is valid
+
+                # Server channel
+                ####################################
                 if channel_json_data.get("guild") != None:
                 
                     server_attachments_name = channel_json_data["guild"]["name"]
@@ -267,7 +270,6 @@ def main():
                                             os.mkdir(server_channel_attachments_dir)
                         
                                         try:
-                                            
                                             # Add a user agent, else Cloudflare wont let us download the link
                                             http_headers = {
                                                 'User-Agent': USER_AGENT,
@@ -296,10 +298,17 @@ def main():
                                         
                                     attachment_list_count += 1
                     
+                # TODO: Move the shared parts of the above code
 
-                # TODO: Add support for DMs
+                # Direct Message (DM)
+                ####################################
+                elif channel_json_data.get("recipients") != None:
+                    dummy = 1
 
-                # Display a message if the JSON file is not valid or not supported yet
+                    
+
+                # Inavlid or not supported
+                ####################################
                 else:
                     print_log("====================")
                     print_log("ID {} ({}/{}) is invalid or not supported yet".format(filter_channel_id(channel_dir), channel_index, channels_len_str))
