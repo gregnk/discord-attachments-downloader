@@ -14,7 +14,7 @@ cd dist\v%ver%\windows
 "C:\Program Files\7-Zip\7z.exe" a ..\discord-attachments-downloader-v%ver%-windows.zip
 cd ..\..\..
 
-:: Mac isn't supported yet bc Apple makes it fucking impossible to run their stuff on a VM
+:: Mac isn't supported bc Apple makes it fucking impossible to run their stuff on a VM
 :: Will add once I get a Mac, which I'll do right after the Toronto Maple Leafs win the Stanley Cup
 :: If you are on a Mac, try using the Linux version (idk if it works on Mac)
 :: and failing that just run the py file directly
