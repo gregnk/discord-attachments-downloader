@@ -20,13 +20,13 @@ import os
 
 VERSION = sys.argv[1]
 INPUT_PATH = "dist/v{}/".format(VERSION)
-OUTFILE_FILE_PATH = INPUT_PATH + "sha256_hashes.txt"
+OUTPUT_FILE_PATH = INPUT_PATH + "sha256_hashes.txt"
 
-if (os.path.isfile(OUTFILE_FILE_PATH)):
-    os.remove(OUTFILE_FILE_PATH)
+if (os.path.isfile(OUTPUT_FILE_PATH)):
+    os.remove(OUTPUT_FILE_PATH)
 
 print("PATH = %s" % INPUT_PATH)
-print("OUTFILE_PATH = %s" % OUTFILE_FILE_PATH)
+print("OUTFILE_PATH = %s" % OUTPUT_FILE_PATH)
 
 file_list = []
 file_list.append(INPUT_PATH + "windows/discord-attachments-downloader.exe")
@@ -37,7 +37,7 @@ file_list_size = len(file_list)
 
 # Get the sha256 checksum for each file
 
-f = open(OUTFILE_FILE_PATH, "a")
+f = open(OUTPUT_FILE_PATH, "a")
 
 for input_file_path in file_list:
 
