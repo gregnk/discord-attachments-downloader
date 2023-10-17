@@ -44,7 +44,7 @@ for input_file_path in file_list:
     hash = hashlib.sha256()
     print(input_file_path)
 
-    outfile_contents_line = input_file_path + ","
+    outfile_contents_line = "* " + input_file_path + ": "
 
     try:
         with open(input_file_path, "rb") as input_file:
