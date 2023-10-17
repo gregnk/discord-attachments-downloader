@@ -1,5 +1,5 @@
 LICENSE_TEXT = '''
-discord-attachments-downloader v1.3.0 (2023-10-15)
+discord-attachments-downloader v1.3.1 (2023-10-17)
 https://github.com/gregnk/discord-attachments-downloader
 
 (c) 2023 Gregory Karastergios
@@ -78,7 +78,7 @@ def get_iso_time():
     return datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
 
 def print_current_time():
-    print("Current time: " + get_current_time())
+    print_log("Current time: " + get_current_time())
 
 def print_download_error_msg():
     print_log(color_str("=== Could not download file", text_color.RED))
