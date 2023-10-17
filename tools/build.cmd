@@ -1,6 +1,8 @@
-cd ..
 @echo off
 set /p ver="Enter version: v"
+
+for %%I in (.) do set currentdir=%%~nxI
+if %currentdir% == "tools" cd ..
 
 @echo on
 mkdir dist\v%ver%
