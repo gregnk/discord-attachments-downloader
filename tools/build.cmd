@@ -26,5 +26,8 @@ ubuntu run pyinstaller discord-attachments-downloader.py --onefile --distpath di
 call tools\copy_docs.cmd dist\v%ver%\linux
 cd dist\v%ver%\linux
 "C:\Program Files\7-Zip\7z.exe" a ..\discord-attachments-downloader-v%ver%-linux.zip
+
+cd ..\..\..
+py .\tools\get_hashes.py %ver%
 ::====================
 ::pause
