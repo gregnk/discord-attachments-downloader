@@ -1,4 +1,4 @@
-v1.4.0 (2023-10-DD) - FUTURE RELEASE
+v1.4.0 (2023-MM-DD) - FUTURE RELEASE
 ------------------------
 * Added Support for DMs
 
