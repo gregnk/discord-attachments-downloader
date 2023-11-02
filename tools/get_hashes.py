@@ -20,16 +20,18 @@ import os
 
 VERSION = sys.argv[1]
 INPUT_PATH = "dist/v{}/".format(VERSION)
-OUTFILE_FILE_PATH = INPUT_PATH + "sha256_hashes.txt"
+OUTPUT_FILE_PATH = INPUT_PATH + "discord-attachments-downloader-v{}.sha256".format(VERSION)
 
-if (os.path.isfile(OUTFILE_FILE_PATH)):
-    os.remove(OUTFILE_FILE_PATH)
+if (os.path.isfile(OUTPUT_FILE_PATH)):
+    os.remove(OUTPUT_FILE_PATH)
 
 print("PATH = %s" % INPUT_PATH)
-print("OUTFILE_PATH = %s" % OUTFILE_FILE_PATH)
+print("OUTFILE_PATH = %s" % OUTPUT_FILE_PATH)
 
 file_list = []
+file_list.append(INPUT_PATH + "discord-attachments-downloader-v{}-windows.zip".format(VERSION))
 file_list.append(INPUT_PATH + "windows/discord-attachments-downloader.exe")
+file_list.append(INPUT_PATH + "discord-attachments-downloader-v{}-linux.zip".format(VERSION))
 file_list.append(INPUT_PATH + "linux/discord-attachments-downloader")
 
 current_file_index = 0
@@ -37,14 +39,16 @@ file_list_size = len(file_list)
 
 # Get the sha256 checksum for each file
 
-f = open(OUTFILE_FILE_PATH, "a")
+f = open(OUTPUT_FILE_PATH, "a")
 
 for input_file_path in file_list:
+
+    input_file_name = os.path.basename(input_file_path)
 
     hash = hashlib.sha256()
     print(input_file_path)
 
-    outfile_contents_line = "* " + input_file_path + ": "
+    outfile_contents_line = ""
 
     try:
         with open(input_file_path, "rb") as input_file:
@@ -56,7 +60,7 @@ for input_file_path in file_list:
     except Exception as e:
         print(str(e))
 
-    outfile_contents_line += "\n"
+    outfile_contents_line += " *" + input_file_name + "\n"
 
     # Output to file        
     f.write(outfile_contents_line)
