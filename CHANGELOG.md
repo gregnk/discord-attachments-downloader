@@ -2,6 +2,10 @@ v1.4.0 (2023-MM-DD) - FUTURE RELEASE
 ------------------------
 * Added Support for DMs
 
+v1.3.3 (2023-11-02)
+------------------------
+* Fixed a typo
+
 v1.3.2 (2023-11-02)
 ------------------------
 * Changed Windows distribution to use cx_freeze instead of pyinstaller
