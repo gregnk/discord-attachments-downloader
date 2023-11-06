@@ -224,7 +224,7 @@ def main():
 
                 # Validation control vars
                 valid = False
-                channel_type = ""
+                dl_type = ""
                 err_msg = ""
 
                 # Display vars
@@ -234,6 +234,8 @@ def main():
                 ####################################
                 if channel_json_data.get("guild") != None:
                 
+                    dl_type = "server"
+
                     server_attachments_name = channel_json_data["guild"]["name"]
                     server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name)
                     
@@ -257,9 +259,8 @@ def main():
                 ####################################
                 elif channel_json_data.get("recipients") != None:
 
-                    ###################################
-                    # NOT DONE!
-                    ###################################
+                    dl_type = "dm"
+
                     dm_attachments_name = index_json_data[filter_channel_id(channel_dir)]
 
                     # Filter out the last 2 chars if using the new handles system
@@ -329,7 +330,12 @@ def main():
                                 
                                     file_name = msg_id + "_" + str(attachment_list_count) + "_" + remove_end_newline(os.path.basename(word))
                                     
-                                    file_path = server_channel_attachments_dir + get_os_dir_slash() + file_name
+                                    file_path = ""
+
+                                    if (dl_type == "server"):
+                                        file_path = server_channel_attachments_dir + get_os_dir_slash() + file_name
+                                    elif (dl_type == "dm"):
+                                        file_path = server_attachments_dir + get_os_dir_slash() + file_name
                                     
                                     print_log("* Downloading {} to {} ".format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='')
 
