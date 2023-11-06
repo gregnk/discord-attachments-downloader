@@ -1,0 +1,1 @@
+py discord-attachments-downloader.py %*
