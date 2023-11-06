@@ -15,8 +15,8 @@ Parameters:
 
 How to use
 -------------------------------------
-1. Place this script at the root of the data extracted package folder [(instructions on how to request a Discord data package)](https://support.discord.com/hc/en-us/articles/360004957991-Your-Discord-Data-Package)
-2. Run the script
+1. Place this program at the root of the data extracted package folder [(instructions on how to request a Discord data package)](https://support.discord.com/hc/en-us/articles/360004957991-Your-Discord-Data-Package)
+2. Run the program
 
 The files will be downloaded to `attachments/`
 
