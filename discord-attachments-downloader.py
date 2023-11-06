@@ -174,7 +174,7 @@ def main():
         print_log(HELP_TEXT)
 
     else:
-        time.sleep(2)
+        time.sleep(1)
 
         # Get each subdir in the messages dir
         channels = [ f.path for f in os.scandir(MESSAGES_DIR) if f.is_dir() ]
