@@ -343,8 +343,9 @@ def main():
                                     if (os.path.isdir(server_attachments_dir) == False):
                                         os.mkdir(server_attachments_dir)
 
-                                    if (os.path.isdir(server_channel_attachments_dir) == False):
-                                        os.mkdir(server_channel_attachments_dir)
+                                    if (dl_type == "server"):
+                                        if (os.path.isdir(server_channel_attachments_dir) == False):
+                                            os.mkdir(server_channel_attachments_dir)
 
                                     if (os.path.exists(file_path) == False):
                                     
