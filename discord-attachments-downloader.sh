@@ -1,1 +1,1 @@
-exec "${PYTHON:-python3}" discord-attachments-downloader.py $0
+exec "${PYTHON:-python3}" discord_attachments_downloader.py $0

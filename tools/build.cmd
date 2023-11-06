@@ -22,7 +22,7 @@ mkdir dist\v%ver%\linux
 
 :: Build the exe using cxfreeze
 :: \
-cxfreeze .\discord-attachments-downloader.py --target-dir=dist\v%ver%\windows
+cxfreeze .\discord_attachments_downloader.py --target-dir=dist\v%ver%\windows --target-name=discord-attachments-downloader.exe
 
 :: Copy the doc files
 :: \
@@ -44,7 +44,7 @@ cd ..\..\..
 :: Linux
 :::::::::::::::::::::::::::::::::
 
-ubuntu run pyinstaller discord-attachments-downloader.py --onefile --distpath dist/v%ver%/linux
+ubuntu run pyinstaller discord_attachments_downloader.py --onefile --distpath dist/v%ver%/linux --name discord-attachments-downloader
 call tools\copy_docs.cmd dist\v%ver%\linux
 cd dist\v%ver%\linux
 "C:\Program Files\7-Zip\7z.exe" a ..\discord-attachments-downloader-v%ver%-linux.zip

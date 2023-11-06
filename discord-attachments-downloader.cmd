@@ -1,1 +1,1 @@
-py discord-attachments-downloader.py %*
+py discord_attachments_downloader.py %*
