@@ -212,7 +212,7 @@ def main():
                 # The name of the channel and the server in the JSON file
 
                 # TODO: Clean up var names, continue consolidating code
-                
+
                 channel_dir = channels[channel_index]
                 
                 channel_json_file = open("{}{}channel.json".format(channel_dir, get_os_dir_slash()))
@@ -292,9 +292,6 @@ def main():
                         server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(dm_attachments_name)
 
                         valid = True
-                    
-
-                    input()
 
                 # Invalid or not supported
                 ####################################
