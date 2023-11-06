@@ -49,6 +49,7 @@ import time
 
 MESSAGES_DIR = "messages"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
+BORDER_STR = "===================="
 
 class text_color:
         CYAN = "\033[36m"
@@ -174,7 +175,7 @@ def main():
         print_log(HELP_TEXT)
 
     else:
-        time.sleep(2)
+        time.sleep(1)
 
         # Get each subdir in the messages dir
         channels = [ f.path for f in os.scandir(MESSAGES_DIR) if f.is_dir() ]
@@ -200,9 +201,18 @@ def main():
             if (os.path.isdir("attachments" + get_os_dir_slash()) == False):
                 os.mkdir("attachments" + get_os_dir_slash())
 
+            # Load the index file
+            index_json_file = open("messages{}index.json".format(get_os_dir_slash()))
+                
+            index_json_data = json.load(index_json_file)
+            index_json_file.close()
+
             while channel_index < channel_len:
 
                 # The name of the channel and the server in the JSON file
+
+                # TODO: Clean up var names, continue consolidating code
+
                 channel_dir = channels[channel_index]
                 
                 channel_json_file = open("{}{}channel.json".format(channel_dir, get_os_dir_slash()))
@@ -210,7 +220,18 @@ def main():
                 channel_json_data = json.load(channel_json_file)
                 channel_json_file.close()
                 
-                # Check if the channel is valid
+                server_channel_attachments_dir = ""
+
+                # Validation control vars
+                valid = False
+                channel_type = ""
+                err_msg = ""
+
+                # Display vars
+                dl_display_str = ""
+                
+                # Server channel
+                ####################################
                 if channel_json_data.get("guild") != None:
                 
                     server_attachments_name = channel_json_data["guild"]["name"]
@@ -220,16 +241,70 @@ def main():
                     server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
                     
                     # Update the window title
-                    window_title = "{}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str)                
-                    update_terminal_window_title(window_title)
+                    dl_display_str = "{}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str)                
+                    update_terminal_window_title(dl_display_str)
 
                     # Print the current server and channel
-                    print_log("====================")
-                    print_log("Downloading {}".format(window_title))
+                    print_log(BORDER_STR)
+                    print_log("Downloading {}".format(dl_display_str))
                     print_log("ID {}".format(filter_channel_id(channel_dir)))
                     print_current_time()
-                    print_log("====================")
+                    print_log(BORDER_STR)
                     
+                    valid = True
+                    
+                # Direct Message (DM)
+                ####################################
+                elif channel_json_data.get("recipients") != None:
+
+                    ###################################
+                    # NOT DONE!
+                    ###################################
+                    dm_attachments_name = index_json_data[filter_channel_id(channel_dir)]
+
+                    # Filter out the last 2 chars if using the new handles system
+                    # Else leave the discriminator in if on the old system
+                    if (str(dm_attachments_name) != "None"):
+                        if (dm_attachments_name[-2:] == "#0"):
+                                dm_attachments_name = dm_attachments_name[:-2]
+
+                    # Update the window title
+                    dl_display_str = "{} ({}/{})".format(dm_attachments_name, channel_index, channels_len_str)                
+                    update_terminal_window_title(dl_display_str)
+                    
+                    # Check if valid
+                    if (str(dm_attachments_name) == "None"):
+                        print_log(BORDER_STR)
+                        print_log("ID {} is empty".format(dl_display_str))
+                        print_current_time()
+                        print_log(BORDER_STR)
+
+                    else:
+                        # Print the current server and channel if valid
+                        print_log(BORDER_STR)
+                        print_log("Downloading {}".format(dl_display_str))
+                        print_log("ID {}".format(filter_channel_id(channel_dir)))
+                        print_current_time()
+                        print_log(BORDER_STR)
+
+                        #server_channel_attachments_name = channel_json_data["name"]
+                        server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(dm_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
+                        server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(dm_attachments_name)
+
+                        valid = True
+
+                # Invalid or not supported
+                ####################################
+                else:
+                    print_log(BORDER_STR)
+                    print_log("ID {} ({}/{}) is invalid or not supported yet".format(filter_channel_id(channel_dir), channel_index, channels_len_str))
+                    print_current_time()
+                    print_log(BORDER_STR)
+                    
+
+                # Download the files
+                ####################################
+                if valid:
                     # Open the CSV file
                     channel_csv_file = open("{}{}messages.csv".format(channel_dir, get_os_dir_slash()), encoding='utf-8', errors='replace')
                     
@@ -257,17 +332,17 @@ def main():
                                     file_path = server_channel_attachments_dir + get_os_dir_slash() + file_name
                                     
                                     print_log("* Downloading {} to {} ".format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='')
-                                    if (os.path.exists(file_path) == False):
-                                        
-                                        # Create the dirs if they don't already exist
-                                        if (os.path.isdir(server_attachments_dir) == False):
-                                            os.mkdir(server_attachments_dir)
 
-                                        if (os.path.isdir(server_channel_attachments_dir) == False):
-                                            os.mkdir(server_channel_attachments_dir)
-                        
+                                    # Create the dirs if they don't already exist
+                                    if (os.path.isdir(server_attachments_dir) == False):
+                                        os.mkdir(server_attachments_dir)
+
+                                    if (os.path.isdir(server_channel_attachments_dir) == False):
+                                        os.mkdir(server_channel_attachments_dir)
+
+                                    if (os.path.exists(file_path) == False):
+                                    
                                         try:
-                                            
                                             # Add a user agent, else Cloudflare wont let us download the link
                                             http_headers = {
                                                 'User-Agent': USER_AGENT,
@@ -295,24 +370,14 @@ def main():
                                         print_log("- File already exists")
                                         
                                     attachment_list_count += 1
-                    
 
-                # TODO: Add support for DMs
-
-                # Display a message if the JSON file is not valid or not supported yet
-                else:
-                    print_log("====================")
-                    print_log("ID {} ({}/{}) is invalid or not supported yet".format(filter_channel_id(channel_dir), channel_index, channels_len_str))
-                    print_current_time()
-                    print_log("====================")
-                    
                 channel_index += 1
                 channel_index_1 += 1
                 
-            print_log("====================")
+            print_log(BORDER_STR)
             print_log("Done")
             print_current_time()
-            print_log("====================")
+            print_log(BORDER_STR)
 
 if __name__ == '__main__':
     main()
