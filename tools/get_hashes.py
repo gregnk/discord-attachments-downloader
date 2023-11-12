@@ -20,61 +20,76 @@ import os
 
 VERSION = sys.argv[1]
 INPUT_PATH = "dist/v{}/".format(VERSION)
-OUTPUT_FILE_PATH = INPUT_PATH + "discord-attachments-downloader-v{}.sha256".format(VERSION)
+OUTPUT_FILE_PATH_NAME = INPUT_PATH + "discord-attachments-downloader-v{}".format(VERSION)
 
-if (os.path.isfile(OUTPUT_FILE_PATH)):
-    os.remove(OUTPUT_FILE_PATH)
+def get_hashes(file_list, hash):
+    OUTPUT_FILE_PATH = OUTPUT_FILE_PATH_NAME + ".{}".format(hash.name)
+    print("OUTFILE_FILE_PATH = %s" % OUTPUT_FILE_PATH_NAME)
 
-print("PATH = %s" % INPUT_PATH)
-print("OUTFILE_PATH = %s" % OUTPUT_FILE_PATH)
+    if (os.path.isfile(OUTPUT_FILE_PATH)):
+        os.remove(OUTPUT_FILE_PATH)
 
-file_list = []
-file_list.append(INPUT_PATH + "pyzip/discord-attachments-downloader")
-file_list.append(INPUT_PATH + "discord-attachments-downloader-v{}.zip".format(VERSION))
-file_list.append(INPUT_PATH + "discord-attachments-downloader-v{}-windows.zip".format(VERSION))
-#file_list.append(INPUT_PATH + "windows/discord-attachments-downloader.exe")
-file_list.append(INPUT_PATH + "discord-attachments-downloader-v{}-linux.zip".format(VERSION))
-#file_list.append(INPUT_PATH + "linux/discord-attachments-downloader")
+    current_file_index = 0
+    file_list_size = len(file_list)
 
-current_file_index = 0
-file_list_size = len(file_list)
+    f = open(OUTPUT_FILE_PATH, "a")
 
-# Get the sha256 checksum for each file
+    for input_file_path in file_list:
 
-f = open(OUTPUT_FILE_PATH, "a")
+        input_file_name = os.path.basename(input_file_path)
 
-for input_file_path in file_list:
+        print(input_file_path)
 
-    input_file_name = os.path.basename(input_file_path)
+        outfile_contents_line = ""
 
-    hash = hashlib.sha256()
-    print(input_file_path)
+        try:
+            with open(input_file_path, "rb") as input_file:
+                for byte_block in iter(lambda: input_file.read(4096), b""):
+                    hash.update(byte_block)
 
-    outfile_contents_line = ""
+                outfile_contents_line += hash.hexdigest()
 
-    try:
-        with open(input_file_path, "rb") as input_file:
-            for byte_block in iter(lambda: input_file.read(4096), b""):
-                hash.update(byte_block)
+        except Exception as e:
+            print(str(e))
 
-            outfile_contents_line += hash.hexdigest()
+        outfile_contents_line += " *" + input_file_name + "\n"
 
-    except Exception as e:
-        print(str(e))
+        # Output to file        
+        f.write(outfile_contents_line)
 
-    outfile_contents_line += " *" + input_file_name + "\n"
-
-    # Output to file        
-    f.write(outfile_contents_line)
-
-    print("%f%%" % (current_file_index / file_list_size  * 100))
-    current_file_index += 1
+        print("%f%%" % (current_file_index / file_list_size  * 100))
+        current_file_index += 1
 
 
-f.close()
+    f.close()
 
-print("======================================")
-print("Done")
-# except Exception as e:
-#     print(str(e))
-#     pass
+def main():
+
+    BORDER_STR = "======================================"
+    print("PATH = %s" % INPUT_PATH)
+
+    file_list = []
+    file_list.append(INPUT_PATH + "pyzip/discord-attachments-downloader")
+    file_list.append(INPUT_PATH + "discord-attachments-downloader-v{}.zip".format(VERSION))
+    file_list.append(INPUT_PATH + "discord-attachments-downloader-v{}-windows.zip".format(VERSION))
+    #file_list.append(INPUT_PATH + "windows/discord-attachments-downloader.exe")
+    file_list.append(INPUT_PATH + "discord-attachments-downloader-v{}-linux.zip".format(VERSION))
+    #file_list.append(INPUT_PATH + "linux/discord-attachments-downloader")
+
+    print("SHA-256 Hashes")
+    print(BORDER_STR)
+    get_hashes(file_list, hashlib.sha256())
+
+    print("SHA-512 Hashes")
+    print(BORDER_STR)
+    get_hashes(file_list, hashlib.sha512())
+    
+    
+    print(BORDER_STR)
+    print("Done")
+    # except Exception as e:
+    #     print(str(e))
+    #     pass
+
+if __name__ == "__main__":
+    main()
