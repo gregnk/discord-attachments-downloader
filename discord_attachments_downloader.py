@@ -263,7 +263,7 @@ def main():
                 
                 server_channel_attachments_dir = ""
 
-                # Validation control vars
+                # Control vars
                 valid = False
                 dl_type = ""
                 err_msg = ""
@@ -277,9 +277,11 @@ def main():
                 
                     dl_type = "server"
 
+                    # attachments\(server name)
                     server_attachments_name = channel_json_data["guild"]["name"]
                     server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name)
                     
+                    # attachments\(server name)\(channel name)
                     server_channel_attachments_name = channel_json_data["name"]
                     server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
                     
@@ -302,6 +304,7 @@ def main():
 
                     dl_type = "dm"
 
+                    # attachments\(dm name)\
                     dm_attachments_name = index_json_data[filter_channel_id(channel_dir)]
 
                     # Filter out the last 2 chars if using the new handles system
