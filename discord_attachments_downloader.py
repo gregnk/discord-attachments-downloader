@@ -86,9 +86,9 @@ def print_current_time():
 def print_download_error_msg():
     print_log(color_str("=== Could not download file", text_color.RED))
 
-def print_log(msg, end='\n'):
+def print_log(msg, end='\n', flush=False):
 
-    print(msg, end=end)
+    print(msg, end=end, flush=flush)
 
     if (logging):
         # Remove color codes when outputting to file
@@ -379,7 +379,7 @@ def main():
                                         file_path = server_attachments_dir + get_os_dir_slash() + file_name
                                     
                                     # BUG: The msg below doesn't get printed until after the file is downloaded
-                                    print_log("* Downloading {} to {} ".format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='')
+                                    print_log("* Downloading {} to {} ".format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='', flush=True)
 
                                     # Create the dirs if they don't already exist
                                     if (os.path.isdir(server_attachments_dir) == False):
