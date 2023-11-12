@@ -69,7 +69,7 @@ def main():
     print("PATH = %s" % INPUT_PATH)
 
     file_list = []
-    file_list.append(INPUT_PATH + "pyzip/discord-attachments-downloader")
+    file_list.append(INPUT_PATH + "py_zipapp/discord-attachments-downloader")
     file_list.append(INPUT_PATH + "discord-attachments-downloader-v{}.zip".format(VERSION))
     file_list.append(INPUT_PATH + "discord-attachments-downloader-v{}-windows.zip".format(VERSION))
     #file_list.append(INPUT_PATH + "windows/discord-attachments-downloader.exe")

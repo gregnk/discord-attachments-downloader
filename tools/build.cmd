@@ -8,15 +8,15 @@ if %currentdir% == "tools" cd ..
 
 @echo on
 mkdir dist\v%ver%
-mkdir dist\v%ver%\pyzip
+mkdir dist\v%ver%\py_zipapp
 mkdir dist\v%ver%\windows
 mkdir dist\v%ver%\linux
 
-:: Pyzip
+:: Python Zipapp
 :::::::::::::::::::::::::::::::::
-shiv -c discord_attachments_downloader -o dist\v%ver%\pyzip\discord-attachments-downloader .
-call tools\copy_docs.cmd dist\v%ver%\pyzip
-cd dist\v%ver%\pyzip
+shiv -c discord_attachments_downloader -o dist\v%ver%\py_zipapp\discord-attachments-downloader .
+call tools\copy_docs.cmd dist\v%ver%\py_zipapp
+cd dist\v%ver%\py_zipapp
 copy discord-attachments-downloader ..\discord-attachments-downloader
 "C:\Program Files\7-Zip\7z.exe" a ..\discord-attachments-downloader-v%ver%.zip
 cd ..\..\..
