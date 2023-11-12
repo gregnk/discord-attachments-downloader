@@ -14,6 +14,7 @@ Parameters:
 * `--log` or `-l` - Enables logging the output to file
 * `--help` or `-h` - Display help and then exit
 * `--licenses` - Display third-party license notices and then exit
+* `--check-updates` or `-u` - Exit after checking for updates
 
 How to use
 -------------------------------------
