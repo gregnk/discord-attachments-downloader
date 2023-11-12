@@ -218,227 +218,236 @@ def main():
     else:
         time.sleep(1)
 
-        # Get each subdir in the messages dir
-        channels = [ f.path for f in os.scandir(MESSAGES_DIR) if f.is_dir() ]
 
-        channel_len = len(channels) - 1
-        channels_len_str = str(channel_len)
-
-        print_log("Channels: " + channels_len_str)
-
-        channel_index = get_channel_index()
-        channel_index_1 = channel_index + 1
-
-        # Check if the index is a valid number
-        if (channel_index > channel_len):
-            print_log(color_str("=== ERROR: Index out of range", text_color.RED))
-
-        # Check if the index is within range
-        elif (type(channel_index) != int):
-            print_log(color_str("=== ERROR: Index must be a positive number", text_color.RED))
-
+        # Check if the required dirs/files exist
+        if (os.path.isdir(MESSAGES_DIR) == False):
+            print_log(color_str("=== ERROR: Messages directory does not exist", text_color.RED))
+        
+        elif (os.path.isdir(MESSAGES_DIR + "{}index.json".format(get_os_dir_slash())) == False):
+            print_log(color_str("=== ERROR: Index file does not exist", text_color.RED))
+        
         else:
-            # Create the attachments dir if it doesn't exist already
-            if (os.path.isdir("attachments" + get_os_dir_slash()) == False):
-                os.mkdir("attachments" + get_os_dir_slash())
+            # Get each subdir in the messages dir
+            channels = [ f.path for f in os.scandir(MESSAGES_DIR) if f.is_dir() ]
 
-            # Load the index file
-            index_json_file = open("messages{}index.json".format(get_os_dir_slash()))
-                
-            index_json_data = json.load(index_json_file)
-            index_json_file.close()
+            channel_len = len(channels) - 1
+            channels_len_str = str(channel_len)
 
-            while channel_index < channel_len:
+            print_log("Channels: " + channels_len_str)
 
-                # The name of the channel and the server in the JSON file
+            channel_index = get_channel_index()
+            channel_index_1 = channel_index + 1
 
-                # TODO: Clean up var names, continue consolidating code
+            # Check if the index is a valid number
+            if (channel_index > channel_len):
+                print_log(color_str("=== ERROR: Index out of range", text_color.RED))
 
-                channel_dir = channels[channel_index]
-                
-                channel_json_file = open("{}{}channel.json".format(channel_dir, get_os_dir_slash()))
-                
-                channel_json_data = json.load(channel_json_file)
-                channel_json_file.close()
-                
-                server_channel_attachments_dir = ""
+            # Check if the index is within range
+            elif (type(channel_index) != int):
+                print_log(color_str("=== ERROR: Index must be a positive number", text_color.RED))
 
-                # Control vars
-                valid = False
-                thread = False
-                thread_parent = ""
-                dl_type = ""
-                err_msg = ""
+            else:
+                # Create the attachments dir if it doesn't exist already
+                if (os.path.isdir("attachments" + get_os_dir_slash()) == False):
+                    os.mkdir("attachments" + get_os_dir_slash())
 
-                # Display vars
-                dl_display_str = ""
-                
-                # Server channel
-                ####################################
-                if channel_json_data.get("guild") != None:
-                
-                    dl_type = "server"
-
-                    # A limitation of Discord data packages is that they do not state the parent of a thread
-                    # So thread channels can't be grouped by their parent
-                    if (channel_json_data["type"] == 11):
-                        thread = True
+                # Load the index file
+                index_json_file = open("messages{}index.json".format(get_os_dir_slash()))
                     
-                    # attachments\(server name)
-                    server_attachments_name = channel_json_data["guild"]["name"]
-                    server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name)
+                index_json_data = json.load(index_json_file)
+                index_json_file.close()
+
+                while channel_index < channel_len:
+
+                    # The name of the channel and the server in the JSON file
+
+                    # TODO: Clean up var names, continue consolidating code
+
+                    channel_dir = channels[channel_index]
                     
-                    # attachments\(server name)\(channel name)
-                    server_channel_attachments_name = channel_json_data["name"]
-                    server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
+                    channel_json_file = open("{}{}channel.json".format(channel_dir, get_os_dir_slash()))
                     
-                    # Update the window title
-                    dl_display_str = "{}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str)
-                    update_terminal_window_title(dl_display_str)
-
-                    # Print the current server and channel
-                    print_log(BORDER_STR)
-                    print_log("Downloading {}".format(dl_display_str))
-                    if (thread):
-                        print_log("This channel is a thread")
-                    print_log("ID {}".format(filter_channel_id(channel_dir)))
-                    print_current_time()
-                    print_log(BORDER_STR)
+                    channel_json_data = json.load(channel_json_file)
+                    channel_json_file.close()
                     
-                    valid = True
+                    server_channel_attachments_dir = ""
+
+                    # Control vars
+                    valid = False
+                    thread = False
+                    thread_parent = ""
+                    dl_type = ""
+                    err_msg = ""
+
+                    # Display vars
+                    dl_display_str = ""
                     
-                # Direct Message (DM)
-                ####################################
-                elif channel_json_data.get("recipients") != None:
-
-                    dl_type = "dm"
-
-                    # attachments\(dm name)\
-                    dm_attachments_name = index_json_data[filter_channel_id(channel_dir)]
-
-                    # Filter out the last 2 chars if using the new handles system
-                    # Else leave the discriminator in if on the old system
-                    if (str(dm_attachments_name) != "None"):
-                        if (dm_attachments_name[-2:] == "#0"):
-                            dm_attachments_name = dm_attachments_name[:-2]
-
-                    # Update the window title
-                    dl_display_str = "{} ({}/{})".format(dm_attachments_name, channel_index, channels_len_str)                
-                    update_terminal_window_title(dl_display_str)
+                    # Server channel
+                    ####################################
+                    if channel_json_data.get("guild") != None:
                     
-                    # Check if valid
-                    if (str(dm_attachments_name) == "None"):
-                        print_log(BORDER_STR)
-                        print_log("ID {} is empty".format(dl_display_str))
-                        print_current_time()
-                        print_log(BORDER_STR)
+                        dl_type = "server"
 
-                    else:
-                        # Print the current server and channel if valid
+                        # A limitation of Discord data packages is that they do not state the parent of a thread
+                        # So thread channels can't be grouped by their parent
+                        if (channel_json_data["type"] == 11):
+                            thread = True
+                        
+                        # attachments\(server name)
+                        server_attachments_name = channel_json_data["guild"]["name"]
+                        server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name)
+                        
+                        # attachments\(server name)\(channel name)
+                        server_channel_attachments_name = channel_json_data["name"]
+                        server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
+                        
+                        # Update the window title
+                        dl_display_str = "{}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str)
+                        update_terminal_window_title(dl_display_str)
+
+                        # Print the current server and channel
                         print_log(BORDER_STR)
                         print_log("Downloading {}".format(dl_display_str))
+                        if (thread):
+                            print_log("This channel is a thread")
                         print_log("ID {}".format(filter_channel_id(channel_dir)))
                         print_current_time()
                         print_log(BORDER_STR)
-
-                        #server_channel_attachments_name = channel_json_data["name"]
-                        server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(dm_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
-                        server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(dm_attachments_name)
-
-                        valid = True
-
-                # Invalid or not supported
-                ####################################
-                else:
-                    print_log(BORDER_STR)
-                    print_log("ID {} ({}/{}) is invalid or not supported yet".format(filter_channel_id(channel_dir), channel_index, channels_len_str))
-                    print_current_time()
-                    print_log(BORDER_STR)
-                    
-
-                # Download the files
-                ####################################
-                if valid:
-                    # Open the CSV file
-                    channel_csv_file = open("{}{}messages.csv".format(channel_dir, get_os_dir_slash()), encoding='utf-8', errors='replace')
-                    
-                    channel_csv_rows = channel_csv_file.readlines()
-                    
-                    channel_csv_file.close()
-                    
-                    # Go thru each item in the CSV file
-                    for row in channel_csv_rows:
-                        channel_csv_cols = row.split(",")
                         
-                        if (len(channel_csv_cols) >= 4):
-                            msg_id = channel_csv_cols[0]
-                            attachments_list = channel_csv_cols[3].split(" ")
+                        valid = True
+                        
+                    # Direct Message (DM)
+                    ####################################
+                    elif channel_json_data.get("recipients") != None:
+
+                        dl_type = "dm"
+
+                        # attachments\(dm name)\
+                        dm_attachments_name = index_json_data[filter_channel_id(channel_dir)]
+
+                        # Filter out the last 2 chars if using the new handles system
+                        # Else leave the discriminator in if on the old system
+                        if (str(dm_attachments_name) != "None"):
+                            if (dm_attachments_name[-2:] == "#0"):
+                                dm_attachments_name = dm_attachments_name[:-2]
+
+                        # Update the window title
+                        dl_display_str = "{} ({}/{})".format(dm_attachments_name, channel_index, channels_len_str)                
+                        update_terminal_window_title(dl_display_str)
+                        
+                        # Check if valid
+                        if (str(dm_attachments_name) == "None"):
+                            print_log(BORDER_STR)
+                            print_log("ID {} is empty".format(dl_display_str))
+                            print_current_time()
+                            print_log(BORDER_STR)
+
+                        else:
+                            # Print the current server and channel if valid
+                            print_log(BORDER_STR)
+                            print_log("Downloading {}".format(dl_display_str))
+                            print_log("ID {}".format(filter_channel_id(channel_dir)))
+                            print_current_time()
+                            print_log(BORDER_STR)
+
+                            #server_channel_attachments_name = channel_json_data["name"]
+                            server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(dm_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
+                            server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(dm_attachments_name)
+
+                            valid = True
+
+                    # Invalid or not supported
+                    ####################################
+                    else:
+                        print_log(BORDER_STR)
+                        print_log("ID {} ({}/{}) is invalid or not supported yet".format(filter_channel_id(channel_dir), channel_index, channels_len_str))
+                        print_current_time()
+                        print_log(BORDER_STR)
+                        
+
+                    # Download the files
+                    ####################################
+                    if valid:
+                        # Open the CSV file
+                        channel_csv_file = open("{}{}messages.csv".format(channel_dir, get_os_dir_slash()), encoding='utf-8', errors='replace')
+                        
+                        channel_csv_rows = channel_csv_file.readlines()
+                        
+                        channel_csv_file.close()
+                        
+                        # Go thru each item in the CSV file
+                        for row in channel_csv_rows:
+                            channel_csv_cols = row.split(",")
                             
-                            attachment_list_count = 0
-                            
-                            for word in attachments_list:
-                                # If it contains an attachment link, download it
+                            if (len(channel_csv_cols) >= 4):
+                                msg_id = channel_csv_cols[0]
+                                attachments_list = channel_csv_cols[3].split(" ")
                                 
-                                if (word[:39] == "https://cdn.discordapp.com/attachments/"):
+                                attachment_list_count = 0
                                 
-                                    file_name = msg_id + "_" + str(attachment_list_count) + "_" + remove_end_newline(os.path.basename(word))
+                                for word in attachments_list:
+                                    # If it contains an attachment link, download it
                                     
-                                    file_path = ""
-
-                                    if (dl_type == "server"):
-                                        file_path = server_channel_attachments_dir + get_os_dir_slash() + file_name
-                                    elif (dl_type == "dm"):
-                                        file_path = server_attachments_dir + get_os_dir_slash() + file_name
+                                    if (word[:39] == "https://cdn.discordapp.com/attachments/"):
                                     
-                                    # BUG: The msg below doesn't get printed until after the file is downloaded
-                                    print_log("* Downloading {} to {} ".format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='', flush=True)
-
-                                    # Create the dirs if they don't already exist
-                                    if (os.path.isdir(server_attachments_dir) == False):
-                                        os.mkdir(server_attachments_dir)
-
-                                    if (dl_type == "server"):
-                                        if (os.path.isdir(server_channel_attachments_dir) == False):
-                                            os.mkdir(server_channel_attachments_dir)
-
-                                    if (os.path.exists(file_path) == False):
-                                    
-                                        try:
-                                            # Add a user agent, else Cloudflare wont let us download the link
-                                            http_headers = {
-                                                'User-Agent': USER_AGENT,
-                                            }
-                                            
-                                            # Get and save the file
-                                            r = requests.get(remove_end_newline(word), headers=http_headers)
-                                            open(file_path, 'wb').write(r.content)
-
-                                        except requests.exceptions.HTTPError as e:
-                                            print_download_error_msg()
-                                            print_log(e)
-                                        except requests.exceptions.Timeout:
-                                            print_download_error_msg()
-                                        except requests.exceptions.RequestException as e:
-                                            print_download_error_msg()
-                                            print_log(e)
-                                            sys.exit()
-                                        except Exception as e:
-                                            traceback.print_exc()
-
-                                        print_log("- Done")
-                                    
-                                    else:
-                                        print_log("- File already exists")
+                                        file_name = msg_id + "_" + str(attachment_list_count) + "_" + remove_end_newline(os.path.basename(word))
                                         
-                                    attachment_list_count += 1
+                                        file_path = ""
 
-                channel_index += 1
-                channel_index_1 += 1
-                
-            print_log(BORDER_STR)
-            print_log("Done")
-            print_current_time()
-            print_log(BORDER_STR)
+                                        if (dl_type == "server"):
+                                            file_path = server_channel_attachments_dir + get_os_dir_slash() + file_name
+                                        elif (dl_type == "dm"):
+                                            file_path = server_attachments_dir + get_os_dir_slash() + file_name
+                                        
+                                        # BUG: The msg below doesn't get printed until after the file is downloaded
+                                        print_log("* Downloading {} to {} ".format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='', flush=True)
+
+                                        # Create the dirs if they don't already exist
+                                        if (os.path.isdir(server_attachments_dir) == False):
+                                            os.mkdir(server_attachments_dir)
+
+                                        if (dl_type == "server"):
+                                            if (os.path.isdir(server_channel_attachments_dir) == False):
+                                                os.mkdir(server_channel_attachments_dir)
+
+                                        if (os.path.exists(file_path) == False):
+                                        
+                                            try:
+                                                # Add a user agent, else Cloudflare wont let us download the link
+                                                http_headers = {
+                                                    'User-Agent': USER_AGENT,
+                                                }
+                                                
+                                                # Get and save the file
+                                                r = requests.get(remove_end_newline(word), headers=http_headers)
+                                                open(file_path, 'wb').write(r.content)
+
+                                            except requests.exceptions.HTTPError as e:
+                                                print_download_error_msg()
+                                                print_log(e)
+                                            except requests.exceptions.Timeout:
+                                                print_download_error_msg()
+                                            except requests.exceptions.RequestException as e:
+                                                print_download_error_msg()
+                                                print_log(e)
+                                                sys.exit()
+                                            except Exception as e:
+                                                traceback.print_exc()
+
+                                            print_log("- Done")
+                                        
+                                        else:
+                                            print_log("- File already exists")
+                                            
+                                        attachment_list_count += 1
+
+                    channel_index += 1
+                    channel_index_1 += 1
+                    
+                print_log(BORDER_STR)
+                print_log("Done")
+                print_current_time()
+                print_log(BORDER_STR)
 
 if __name__ == '__main__':
     main()
