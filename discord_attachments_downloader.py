@@ -265,6 +265,8 @@ def main():
 
                 # Control vars
                 valid = False
+                thread = False
+                thread_parent = ""
                 dl_type = ""
                 err_msg = ""
 
@@ -277,6 +279,11 @@ def main():
                 
                     dl_type = "server"
 
+                    # A limitation of Discord data packages is that they do not state the parent of a thread
+                    # So thread channels can't be grouped by their parent
+                    if (channel_json_data["type"] == 11):
+                        thread = True
+                    
                     # attachments\(server name)
                     server_attachments_name = channel_json_data["guild"]["name"]
                     server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name)
@@ -292,6 +299,8 @@ def main():
                     # Print the current server and channel
                     print_log(BORDER_STR)
                     print_log("Downloading {}".format(dl_display_str))
+                    if (thread):
+                        print_log("This channel is a thread")
                     print_log("ID {}".format(filter_channel_id(channel_dir)))
                     print_current_time()
                     print_log(BORDER_STR)
