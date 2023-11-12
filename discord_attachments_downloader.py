@@ -21,7 +21,7 @@ LICENSES_3RDPARTY_TEXT = '''
 3rd Party Licenses
 -------------------------------------
 
-requests - (c) 2019 Kenneth Reitz, Apache 2.0 <https://github.com/psf/requests/blob/main/LICENSE>
+requests - (c) 2019 Kenneth Reitz, Apache-2.0 <https://github.com/psf/requests/blob/main/LICENSE>
 '''
 
 HELP_TEXT = '''
