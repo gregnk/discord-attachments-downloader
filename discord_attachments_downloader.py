@@ -293,7 +293,7 @@ def main():
                     server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
                     
                     # Update the window title
-                    dl_display_str = "{}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str)                
+                    dl_display_str = "{}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str)
                     update_terminal_window_title(dl_display_str)
 
                     # Print the current server and channel
@@ -320,7 +320,7 @@ def main():
                     # Else leave the discriminator in if on the old system
                     if (str(dm_attachments_name) != "None"):
                         if (dm_attachments_name[-2:] == "#0"):
-                                dm_attachments_name = dm_attachments_name[:-2]
+                            dm_attachments_name = dm_attachments_name[:-2]
 
                     # Update the window title
                     dl_display_str = "{} ({}/{})".format(dm_attachments_name, channel_index, channels_len_str)                
