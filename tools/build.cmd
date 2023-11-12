@@ -1,3 +1,5 @@
+:: TODO: Replace this with a python script, this is too complicated for batch
+:: Also this code is really spaghetti
 @echo off
 set /p ver="Enter version: v"
 
@@ -6,8 +8,18 @@ if %currentdir% == "tools" cd ..
 
 @echo on
 mkdir dist\v%ver%
+mkdir dist\v%ver%\pyzip
 mkdir dist\v%ver%\windows
 mkdir dist\v%ver%\linux
+
+:: Pyzip
+:::::::::::::::::::::::::::::::::
+shiv -c discord_attachments_downloader -o dist\v%ver%\pyzip\discord-attachments-downloader .
+call tools\copy_docs.cmd dist\v%ver%\pyzip
+cd dist\v%ver%\pyzip
+copy discord-attachments-downloader ..\discord-attachments-downloader
+"C:\Program Files\7-Zip\7z.exe" a ..\discord-attachments-downloader-v%ver%.zip
+cd ..\..\..
 
 :: Windows
 :::::::::::::::::::::::::::::::::
