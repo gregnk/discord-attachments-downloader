@@ -1,6 +1,9 @@
 v1.4.0 (2023-MM-DD) - FUTURE RELEASE
 ------------------------
-* Added Support for DMs
+* Added support for DMs
+* Added support for py zipapp
+* Added a check for thread channels
+* Fixed a bug where the file download message would not output until after it was downloaded
 
 v1.3.3 (2023-11-02)
 ------------------------
