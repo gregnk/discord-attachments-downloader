@@ -223,7 +223,7 @@ def main():
         if (os.path.isdir(MESSAGES_DIR) == False):
             print_log(color_str("=== ERROR: Messages directory does not exist", text_color.RED))
         
-        elif (os.path.isdir(MESSAGES_DIR + "{}index.json".format(get_os_dir_slash())) == False):
+        elif (os.path.isfile(MESSAGES_DIR + "{}index.json".format(get_os_dir_slash())) == False):
             print_log(color_str("=== ERROR: Index file does not exist", text_color.RED))
         
         else:
