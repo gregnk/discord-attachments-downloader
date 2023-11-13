@@ -35,7 +35,7 @@ Parameters:
 * `--log` or `-l` - Enables logging the output to file
 * `--help` or `-h` - Display help and then exit
 * `--licenses` - Display third-party license notices and then exit
-* `--check-updates` or `-u` - Exit after checking for updates
+* `--check-updates-only` or `-u` - Exit after checking for updates
 * `--dont-check-updates` or `-du` - Don't check for updates (takes priority over --check-updates)
 '''
 
