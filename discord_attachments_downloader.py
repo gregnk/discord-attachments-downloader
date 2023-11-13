@@ -36,6 +36,7 @@ Parameters:
 * `--help` or `-h` - Display help and then exit
 * `--licenses` - Display third-party license notices and then exit
 * `--check-updates` or `-u` - Exit after checking for updates
+* `--dont-check-updates` or `-du` - Don't check for updates (takes priority over --check-updates)
 '''
 
 import os
@@ -137,6 +138,13 @@ def check_update_flag():
         
     return False
 
+def check_no_update_flag():
+    for arg in sys.argv:
+        if (arg == "--dont-check-updates" or arg == "-du"):
+            return True
+        
+    return False
+
 def remove_forbidden_dir_chars(dir_str):
     forbidden_chars = ['<', '>', '\"', '/', '\\', '|', '?', '*', ':']
     
@@ -177,34 +185,35 @@ def main():
     # TODO: Streamline the updating of license files
     print_log(LICENSE_TEXT)
 
-    # Check for updates
-    UPDATE_ERR_STR = color_str("=== WARNING: Could not check for updates", text_color.YELLOW) if (check_update_flag() == False)  \
-        else color_str("=== ERROR: Could not check for updates", text_color.RED)
+    if (check_no_update_flag() == False):
+        # Check for updates
+        UPDATE_ERR_STR = color_str("=== WARNING: Could not check for updates", text_color.YELLOW) if (check_update_flag() == False)  \
+            else color_str("=== ERROR: Could not check for updates", text_color.RED)
 
-    try:
-        latest_version = requests.get('https://raw.githubusercontent.com/gregnk/discord-attachments-downloader/main/version.txt').text
+        try:
+            latest_version = requests.get('https://raw.githubusercontent.com/gregnk/discord-attachments-downloader/main/version.txt').text
 
-        if (latest_version in LICENSE_TEXT):
-            print_log("Program is up to date")
+            if (latest_version in LICENSE_TEXT):
+                print_log("Program is up to date")
 
-        elif (latest_version == "404: Not Found"):
+            elif (latest_version == "404: Not Found"):
+                print_log(UPDATE_ERR_STR)
+                print_log("404: Not Found")
+
+            else:
+                print_log("A new version is available!")
+                print_log("")
+                print_log(latest_version)
+                
+                print_log("Download at https://github.com/gregnk/discord-attachments-downloader/releases/tag/" + latest_version)
+
+        except requests.exceptions.HTTPError as e:
             print_log(UPDATE_ERR_STR)
-            print_log("404: Not Found")
+            print_log(e)
 
-        else:
-            print_log("A new version is available!")
-            print_log("")
-            print_log(latest_version)
-            
-            print_log("Download at https://github.com/gregnk/discord-attachments-downloader/releases/tag/" + latest_version)
-
-    except requests.exceptions.HTTPError as e:
-        print_log(UPDATE_ERR_STR)
-        print_log(e)
-
-    except Exception as e:
-        print_log(UPDATE_ERR_STR)
-        print_log(traceback.print_exc())
+        except Exception as e:
+            print_log(UPDATE_ERR_STR)
+            print_log(traceback.print_exc())
 
     if (check_licenses_flag()):
         print_log(LICENSES_3RDPARTY_TEXT)
@@ -212,7 +221,7 @@ def main():
     elif (check_help_flag()):   
         print_log(HELP_TEXT)
         
-    elif (check_update_flag()):
+    elif (check_update_flag() or check_no_update_flag()):
         sys.exit()
 
     else:
