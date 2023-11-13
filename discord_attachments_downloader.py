@@ -334,12 +334,17 @@ def main():
                         # attachments\(dm name)\
                         dm_attachments_name = index_json_data[filter_channel_id(channel_dir)]
 
-                        # Filter out the last 2 chars if using the new handles system
-                        # Else leave the discriminator in if on the old system
                         if (str(dm_attachments_name) != "None"):
+
+                            # Filter out the last 2 chars if using the new handles system
+                            # Else leave the discriminator in if on the old system
                             if (dm_attachments_name[-2:] == "#0"):
                                 dm_attachments_name = dm_attachments_name[:-2]
-
+                            
+                            # Add the ID for Unknown Participants
+                            if (dm_attachments_name == "Direct Message with Unknown Participant"):
+                                dm_attachments_name += " " + filter_channel_id(channel_dir)
+                        
                         # Update the window title
                         dl_display_str = "{} ({}/{})".format(dm_attachments_name, channel_index, channels_len_str)                
                         update_terminal_window_title(dl_display_str)
