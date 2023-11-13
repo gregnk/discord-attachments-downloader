@@ -1,6 +1,6 @@
 discord-attachments-downloader
 ====================================
-A script which automatically downloads the attachments of Discord messages from a Discord data package.
+A program which automatically downloads the attachments of Discord messages from a Discord data package.
 
 No selfbot or login required.
 
