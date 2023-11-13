@@ -400,7 +400,8 @@ def main():
                                     if (word[:39] == "https://cdn.discordapp.com/attachments/"):
                                     
                                         file_name = msg_id + "_" + str(attachment_list_count) + "_" + remove_end_newline(os.path.basename(word))
-                                        
+                                        file_name = re.sub(r"\?.*", "", file_name) # Remove url args
+
                                         file_path = ""
 
                                         if (dl_type == "server"):
