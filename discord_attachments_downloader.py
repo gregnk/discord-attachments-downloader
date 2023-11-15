@@ -414,7 +414,6 @@ def main():
                                         elif (dl_type == "dm"):
                                             file_path = server_attachments_dir + get_os_dir_slash() + file_name
                                         
-                                        # BUG: The msg below doesn't get printed until after the file is downloaded
                                         print_log("* Downloading {} to {} ".format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='', flush=True)
 
                                         # Create the dirs if they don't already exist
