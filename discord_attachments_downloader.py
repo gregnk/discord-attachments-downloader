@@ -27,7 +27,7 @@ requests - (c) 2019 Kenneth Reitz, Apache-2.0 <https://github.com/psf/requests/b
 HELP_TEXT = '''
 Usage
 -------------------------------------
-    discord-attachments-downloader [--index] (index) [--log]
+    discord-attachments-downloader [--index] (index) [--log] [--no-whitespace]
 
 Parameters:
 
@@ -37,6 +37,7 @@ Parameters:
 * `--licenses` - Display third-party license notices and then exit
 * `--check-updates-only` or `-u` - Exit after checking for updates
 * `--dont-check-updates` or `-du` - Don't check for updates (takes priority over --check-updates)
+* `--no-whitespace` or `-nws` - Replace whitespace with underscores
 '''
 
 import os
@@ -145,12 +146,22 @@ def check_no_update_flag():
         
     return False
 
-def remove_forbidden_dir_chars(dir_str):
-    forbidden_chars = ['<', '>', '\"', '/', '\\', '|', '?', '*', ':']
-    
-    for char in forbidden_chars:
-        dir_str = dir_str.replace(char, "-")
+def check_no_whitespace_flag():
+    for arg in sys.argv:
+        if (arg == "--no-whitespace" or arg == "-nws"):
+            return True
         
+    return False
+
+def process_dir_name(dir_str):
+    FORBIDDEN_CHARS = ['<', '>', '\"', '/', '\\', '|', '?', '*', ':']
+    
+    for char in FORBIDDEN_CHARS:
+        dir_str = dir_str.replace(char, "-")
+    
+    if (NO_WHITESPACE):
+        dir_str = dir_str.replace(" ", "_")
+
     return dir_str
     
 def remove_end_newline(input_str):
@@ -179,6 +190,8 @@ def update_terminal_window_title(window_title):
 logging = check_logging_flag()
 
 LOGFILE_NAME = '{}.log'.format(get_iso_time())
+
+NO_WHITESPACE = check_no_whitespace_flag()
 
 def main():
 
@@ -269,6 +282,8 @@ def main():
 
                 while channel_index < channel_len:
 
+
+
                     # The name of the channel and the server in the JSON file
 
                     # TODO: Clean up var names, continue consolidating code
@@ -305,11 +320,11 @@ def main():
                         
                         # attachments\(server name)
                         server_attachments_name = channel_json_data["guild"]["name"]
-                        server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name)
+                        server_attachments_dir = "attachments" + get_os_dir_slash() + process_dir_name(server_attachments_name)
                         
                         # attachments\(server name)\(channel name)
                         server_channel_attachments_name = channel_json_data["name"]
-                        server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(server_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
+                        server_channel_attachments_dir = "attachments" + get_os_dir_slash() + process_dir_name(server_attachments_name) + get_os_dir_slash() + process_dir_name(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
                         
                         # Update the window title
                         dl_display_str = "{}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str)
@@ -365,8 +380,8 @@ def main():
                             print_log(BORDER_STR)
 
                             #server_channel_attachments_name = channel_json_data["name"]
-                            server_channel_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(dm_attachments_name) + get_os_dir_slash() + remove_forbidden_dir_chars(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
-                            server_attachments_dir = "attachments" + get_os_dir_slash() + remove_forbidden_dir_chars(dm_attachments_name)
+                            server_channel_attachments_dir = "attachments" + get_os_dir_slash() + process_dir_name(dm_attachments_name) + get_os_dir_slash() + process_dir_name(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
+                            server_attachments_dir = "attachments" + get_os_dir_slash() + process_dir_name(dm_attachments_name)
 
                             valid = True
 

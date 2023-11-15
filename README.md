@@ -6,7 +6,7 @@ No selfbot or login required.
 
 Usage
 -------------------------------------
-    discord-attachments-downloader [--index] (index) [--log]
+    discord-attachments-downloader [--index] (index) [--log] [--no-whitespace]
 
 Parameters:
 
@@ -16,6 +16,7 @@ Parameters:
 * `--licenses` - Display third-party license notices and then exit
 * `--check-updates-only` or `-u` - Exit after checking for updates
 * `--dont-check-updates` or `-du` - Don't check for updates (takes priority over --check-updates)
+* `--no-whitespace` or `-nws` - Replace whitespace with underscores
 
 How to use
 -------------------------------------
