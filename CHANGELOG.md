@@ -1,4 +1,4 @@
-v1.4.0 (2023-MM-DD) - FUTURE RELEASE
+v1.4.0 (2023-11-14)
 ------------------------
 * Added support for DMs
 * Added support for py zipapp
