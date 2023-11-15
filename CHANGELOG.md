@@ -4,6 +4,7 @@ v1.4.0 (2023-MM-DD) - FUTURE RELEASE
 * Added support for py zipapp
 * Added a check for thread channels
 * Added support for the new attachment URL format (HTTP parameters are now filtered from the file name)
+* Added an option to replace whitespace with underscores
 * Fixed a bug where the file download message would not output until after it was downloaded
 * Fixed an oversight where messages with commas in them were not downloaded
 
