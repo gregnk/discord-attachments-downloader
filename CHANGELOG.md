@@ -5,6 +5,7 @@ v1.4.0 (2023-MM-DD) - FUTURE RELEASE
 * Added a check for thread channels
 * Added support for the new attachment URL format (HTTP parameters are now filtered from the file name)
 * Fixed a bug where the file download message would not output until after it was downloaded
+* Fixed an oversight where messages with commas in them were not downloaded
 
 v1.3.3 (2023-11-02)
 ------------------------
