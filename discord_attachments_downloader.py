@@ -180,7 +180,7 @@ def update_terminal_window_title(window_title):
             ctypes.windll.kernel32.SetConsoleTitleW(window_title)
         except:
             dummy = 0
-    if os.name == 'posix':
+    elif os.name == 'posix':
         try:
             print("\x1b]2;{}\x07".format(window_title))
         except:
