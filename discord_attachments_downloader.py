@@ -341,10 +341,9 @@ def main():
                             if (dm_attachments_name[-2:] == "#0"):
                                 dm_attachments_name = dm_attachments_name[:-2]
                             
-                            # Add the ID for Unknown Participants
-                            if (dm_attachments_name == "Direct Message with Unknown Participant"):
-                                dm_attachments_name += " " + filter_channel_id(channel_dir)
-                        
+
+                            dm_attachments_name += " " + filter_channel_id(channel_dir)
+
                         # Update the window title
                         dl_display_str = "{} ({}/{})".format(dm_attachments_name, channel_index, channels_len_str)                
                         update_terminal_window_title(dl_display_str)
@@ -412,6 +411,7 @@ def main():
                                         if (dl_type == "server"):
                                             file_path = server_channel_attachments_dir + get_os_dir_slash() + file_name
                                         elif (dl_type == "dm"):
+                                            
                                             file_path = server_attachments_dir + get_os_dir_slash() + file_name
                                         
                                         print_log("* Downloading {} to {} ".format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='', flush=True)
