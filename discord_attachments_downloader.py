@@ -221,8 +221,9 @@ def main():
     elif (check_help_flag()):   
         print_log(HELP_TEXT)
         
-    elif (check_update_flag() or check_no_update_flag()):
-        sys.exit()
+    elif (check_update_flag()):
+        if (check_no_update_flag() == False):
+            sys.exit()
 
     else:
         time.sleep(1)
