@@ -37,7 +37,7 @@ Parameters:
 * `--licenses` - Display third-party license notices and then exit
 * `--check-updates-only` or `-u` - Exit after checking for updates
 * `--dont-check-updates` or `-du` - Don't check for updates (takes priority over --check-updates)
-* `--no-whitespace` or `-nws` - Replace whitespace with underscores
+* `--no-whitespace` or `-nws` - Replace whitespace in folder names with underscores
 '''
 
 import os
