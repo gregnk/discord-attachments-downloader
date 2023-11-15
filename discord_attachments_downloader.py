@@ -395,7 +395,7 @@ def main():
                             
                             if (len(channel_csv_cols) >= 4):
                                 msg_id = channel_csv_cols[0]
-                                attachments_list = channel_csv_cols[3].split(" ")
+                                attachments_list = channel_csv_cols[len(channel_csv_cols) - 1].split(" ")
                                 
                                 attachment_list_count = 0
                                 
