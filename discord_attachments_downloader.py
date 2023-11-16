@@ -336,7 +336,7 @@ def main():
                         print_log("Downloading {}".format(dl_display_str))
                         if (thread):
                             print_log("This channel is a thread")
-                        print_log("ID {}".format(filter_channel_id(channel_dir)))
+                        print_log("ID #{}".format(filter_channel_id(channel_dir)))
                         print_current_time()
                         print_log(BORDER_STR)
                         
@@ -368,7 +368,7 @@ def main():
                         # Check if valid
                         if (str(dm_attachments_name) == "None"):
                             print_log(BORDER_STR)
-                            print_log("ID {} is empty".format(dl_display_str))
+                            print_log("ID #{} is empty".format(dl_display_str))
                             print_current_time()
                             print_log(BORDER_STR)
 
@@ -376,7 +376,7 @@ def main():
                             # Print the current server and channel if valid
                             print_log(BORDER_STR)
                             print_log("Downloading {}".format(dl_display_str))
-                            print_log("ID {}".format(filter_channel_id(channel_dir)))
+                            print_log("ID #{}".format(filter_channel_id(channel_dir)))
                             print_current_time()
                             print_log(BORDER_STR)
 
@@ -390,7 +390,7 @@ def main():
                     ####################################
                     else:
                         print_log(BORDER_STR)
-                        print_log("ID {} ({}/{}) is invalid or not supported yet".format(filter_channel_id(channel_dir), channel_index, channels_len_str))
+                        print_log("ID #{} ({}/{}) is invalid or not supported yet".format(filter_channel_id(channel_dir), channel_index, channels_len_str))
                         print_current_time()
                         print_log(BORDER_STR)
                         
