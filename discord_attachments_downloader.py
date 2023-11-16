@@ -49,6 +49,7 @@ import requests
 import re
 import traceback
 import time
+import csv
 
 MESSAGES_DIR = "messages"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
@@ -400,17 +401,14 @@ def main():
                         # Open the CSV file
                         channel_csv_file = open("{}{}messages.csv".format(channel_dir, get_os_dir_slash()), encoding='utf-8', errors='replace')
                         
-                        channel_csv_rows = channel_csv_file.readlines()
-                        
-                        channel_csv_file.close()
+                        channel_csv_rows = csv.reader(channel_csv_file)
                         
                         # Go thru each item in the CSV file
                         for row in channel_csv_rows:
-                            channel_csv_cols = row.split(",")
                             
-                            if (len(channel_csv_cols) >= 4):
-                                msg_id = channel_csv_cols[0]
-                                attachments_list = channel_csv_cols[len(channel_csv_cols) - 1].split(" ")
+                            if (len(row) >= 4):
+                                msg_id = row[0]
+                                attachments_list = row[len(row) - 1].split(" ")
                                 
                                 attachment_list_count = 0
                                 
@@ -471,6 +469,7 @@ def main():
                                             
                                         attachment_list_count += 1
 
+                    channel_csv_file.close()
                     channel_index += 1
                     channel_index_1 += 1
                     
