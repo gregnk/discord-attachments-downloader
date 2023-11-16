@@ -2,7 +2,7 @@ LICENSE_TEXT = '''
 discord-attachments-downloader v1.4.1 (2023-11-16)
 https://github.com/gregnk/discord-attachments-downloader
 
-(c) 2023 Gregory Karastergios
+Copyright (c) 2023 Gregory Karastergios
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
