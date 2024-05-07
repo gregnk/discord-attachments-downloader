@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="discord-attachments-downloader",
-    version="1.3.3",
+    version="1.4.3",
     description="A program which automatically downloads the attachments of Discord messages from a Discord data package.",
     py_modules=["discord-attachments-downloader"],
     entry_points={

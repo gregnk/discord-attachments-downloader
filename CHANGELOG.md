@@ -1,3 +1,7 @@
+v1.4.3 (2024-05-03)
+------------------------
+* Added validation to check if messages.csv exists for a channel
+
 v1.4.2 (2024-03-16)
 ------------------------
 * Fixed a typo
