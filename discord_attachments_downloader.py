@@ -340,7 +340,14 @@ def main():
                         print_current_time()
                         print_log(BORDER_STR)
                         
-                        valid = True
+                        if (os.path.isfile("{}{}messages.csv".format(channel_dir, get_os_dir_slash())) == False):
+                            print_log(BORDER_STR)
+                            print_log("{}{}messages.csv does not exist".format(channel_dir, get_os_dir_slash()))
+                            print_current_time()
+                            print_log(BORDER_STR)
+
+                        else:
+                            valid = True
                         
                     # Direct Message (DM)
                     ####################################
@@ -364,11 +371,17 @@ def main():
                         # Update the window title
                         dl_display_str = "{} ({}/{})".format(dm_attachments_name, channel_index, channels_len_str)                
                         update_terminal_window_title(dl_display_str)
-                        
+
                         # Check if valid
                         if (str(dm_attachments_name) == "None"):
                             print_log(BORDER_STR)
                             print_log("ID #{} is empty".format(dl_display_str))
+                            print_current_time()
+                            print_log(BORDER_STR)
+
+                        elif (os.path.isfile("{}{}messages.csv".format(channel_dir, get_os_dir_slash())) == False):
+                            print_log(BORDER_STR)
+                            print_log("{}{}messages.csv does not exist".format(channel_dir, get_os_dir_slash()))
                             print_current_time()
                             print_log(BORDER_STR)
 
