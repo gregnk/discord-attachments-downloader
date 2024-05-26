@@ -190,7 +190,7 @@ def update_terminal_window_title(window_title):
 # Enable logging if the flag is passed
 logging = check_logging_flag()
 
-LOGFILE_NAME = '{}.log'.format(get_iso_time())
+LOGFILE_NAME = 'dl_{}.log'.format(get_iso_time())
 
 NO_WHITESPACE = check_no_whitespace_flag()
 
