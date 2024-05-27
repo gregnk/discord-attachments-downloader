@@ -319,13 +319,19 @@ def main():
                         if (channel_json_data["type"] == 11):
                             thread = True
                         
-                        # attachments\(server name)
+                        # attachments\(server name) (server id)
                         server_attachments_name = channel_json_data["guild"]["name"]
-                        server_attachments_dir = "attachments" + get_os_dir_slash() + process_dir_name(server_attachments_name)
+                        server_attachments_dir_name = process_dir_name(server_attachments_name) + " " + channel_json_data["guild"]["id"]
+                        server_attachments_dir = "attachments" + get_os_dir_slash() + server_attachments_dir_name
+
+                        # Check if the dir without the id exists (from older versions)
+                        server_attachments_dir_old = "attachments" + get_os_dir_slash() + channel_json_data["guild"]["name"]
+                        if (os.path.exists(server_attachments_dir_old)):
+                            os.rename(server_attachments_dir_old, server_attachments_dir)
                         
-                        # attachments\(server name)\(channel name)
+                        # attachments\(server name) (server id)\(channel name)
                         server_channel_attachments_name = channel_json_data["name"]
-                        server_channel_attachments_dir = "attachments" + get_os_dir_slash() + process_dir_name(server_attachments_name) + get_os_dir_slash() + process_dir_name(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
+                        server_channel_attachments_dir = "attachments" + get_os_dir_slash() + server_attachments_dir_name + get_os_dir_slash() + process_dir_name(server_channel_attachments_name) + "_" + filter_channel_id(channel_dir)
                         
                         # Update the window title
                         dl_display_str = "{}/{} ({}/{})".format(server_attachments_name, server_channel_attachments_name, channel_index, channels_len_str)
