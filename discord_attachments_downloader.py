@@ -435,76 +435,113 @@ def main():
                     # Download the files
                     ####################################
                     if valid:
-                        # Open the CSV file
-                        channel_csv_file = open("{}{}messages.csv".format(channel_dir, get_os_dir_slash()), encoding='utf-8', errors='replace')
-                        
-                        channel_csv_rows = csv.reader(channel_csv_file)
-                        
-                        # Go thru each item in the CSV file
-                        for row in channel_csv_rows:
+
+                        class AttachmentFile:
+                            def __init__(self, msg_id, file_index, file_name, url):
+                                self.msg_id = msg_id
+                                self.file_index = file_index
+                                self.file_name = file_name
+                                self.url = url
+
+
+                        attachments_list = []
+
+                        if (has_csv):
+
+                            # Open the CSV file
+                            channel_csv_file = open("{}{}messages.csv".format(channel_dir, get_os_dir_slash()), encoding='utf-8', errors='replace')
                             
-                            if (len(row) >= 4):
-                                msg_id = row[0]
-                                attachments_list = row[len(row) - 1].split(" ")
+                            channel_csv_rows = csv.reader(channel_csv_file)
+                            
+                            # Go thru each item in the CSV file
+                            for row in channel_csv_rows:
                                 
-                                attachment_list_count = 0
-                                
-                                for word in attachments_list:
-                                    # If it contains an attachment link, download it
+                                if (len(row) >= 4):
+                                    msg_id = row[0]
+                                    attachments_list_csv = row[len(row) - 1].split(" ")
                                     
-                                    if (word[:39] == "https://cdn.discordapp.com/attachments/"):
+                                    attachment_list_count = 0
                                     
-                                        file_name = msg_id + "_" + str(attachment_list_count) + "_" + remove_end_newline(os.path.basename(word))
-                                        file_name = re.sub(r"\?.*", "", file_name) # Remove url args
-
-                                        file_path = ""
-
-                                        if (dl_type == "server"):
-                                            file_path = server_channel_attachments_dir + get_os_dir_slash() + file_name
-                                        elif (dl_type == "dm"):
-                                            
-                                            file_path = server_attachments_dir + get_os_dir_slash() + file_name
+                                    for word in attachments_list_csv:
                                         
-                                        print_log("* Downloading {} to {} ".format(color_str(remove_end_newline(word), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='', flush=True)
+                                        # If it contains an attachment link, download it
+                                        if (word[:39] == "https://cdn.discordapp.com/attachments/"):
+                                            url_file_name = re.sub(r"\?.*", "", remove_end_newline(os.path.basename(word))) # Remove url args
+                                            attachments_list.append(AttachmentFile(msg_id, str(attachment_list_count), url_file_name, word))
 
-                                        # Create the dirs if they don't already exist
-                                        if (os.path.isdir(server_attachments_dir) == False):
-                                            os.mkdir(server_attachments_dir)
-
-                                        if (dl_type == "server"):
-                                            if (os.path.isdir(server_channel_attachments_dir) == False):
-                                                os.mkdir(server_channel_attachments_dir)
-
-                                        if (os.path.exists(file_path) == False):
-                                        
-                                            try:
-                                                # Add a user agent, else Cloudflare wont let us download the link
-                                                http_headers = {
-                                                    'User-Agent': USER_AGENT,
-                                                }
-                                                
-                                                # Get and save the file
-                                                r = requests.get(remove_end_newline(word), headers=http_headers)
-                                                open(file_path, 'wb').write(r.content)
-
-                                            except requests.exceptions.HTTPError as e:
-                                                print_download_error_msg()
-                                                print_log(e)
-                                            except requests.exceptions.Timeout:
-                                                print_download_error_msg()
-                                            except requests.exceptions.RequestException as e:
-                                                print_download_error_msg()
-                                                print_log(e)
-                                                sys.exit()
-                                            except Exception as e:
-                                                traceback.print_exc()
-
-                                            print_log("- Done")
-                                        
-                                        else:
-                                            print_log("- File already exists")
-                                            
                                         attachment_list_count += 1
+
+                        if (has_json):
+                            # Open the JSON file
+                            channel_json_file = open("{}{}messages.json".format(channel_dir, get_os_dir_slash()), encoding='utf-8', errors='replace')
+
+                            channel_json_data = json.load(channel_json_file)
+
+                            for entry in channel_json_data:
+                                if (entry["Attachments"] != ""):
+                                    attachments_list_json = entry["Attachments"].split(" ")
+
+                                    attachment_list_count = 0
+                                    
+                                    for word in attachments_list_json:
+                                        
+                                        # If it contains an attachment link, download it
+                                        if (word[:39] == "https://cdn.discordapp.com/attachments/"):
+                                            url_file_name = re.sub(r"\?.*", "", remove_end_newline(os.path.basename(word))) # Remove url args
+                                            attachments_list.append(AttachmentFile(msg_id, str(attachment_list_count), url_file_name, word))
+
+                                    attachment_list_count += 1
+
+                        for attachment in attachments_list:
+
+                            file_name = attachment.msg_id + "_" + attachment.file_index + "_" + attachment.file_index
+                            
+                            file_path = ""
+
+                            if (dl_type == "server"):
+                                file_path = server_channel_attachments_dir + get_os_dir_slash() + file_name
+                            elif (dl_type == "dm"):
+                                file_path = server_attachments_dir + get_os_dir_slash() + file_name
+                            
+                            print_log("* Downloading {} to {} ".format(color_str(remove_end_newline(attachment.url), text_color.CYAN), color_str(file_path, text_color.CYAN)), end='', flush=True)
+
+                            # Create the dirs if they don't already exist
+                            if (os.path.isdir(server_attachments_dir) == False):
+                                os.mkdir(server_attachments_dir)
+
+                            if (dl_type == "server"):
+                                if (os.path.isdir(server_channel_attachments_dir) == False):
+                                    os.mkdir(server_channel_attachments_dir)
+
+                            if (os.path.exists(file_path) == False):
+                            
+                                try:
+                                    # Add a user agent, else Cloudflare wont let us download the link
+                                    http_headers = {
+                                        'User-Agent': USER_AGENT,
+                                    }
+                                    
+                                    # Get and save the file
+                                    r = requests.get(remove_end_newline(attachment.url), headers=http_headers)
+                                    open(file_path, 'wb').write(r.content)
+
+                                except requests.exceptions.HTTPError as e:
+                                    print_download_error_msg()
+                                    print_log(e)
+                                except requests.exceptions.Timeout:
+                                    print_download_error_msg()
+                                except requests.exceptions.RequestException as e:
+                                    print_download_error_msg()
+                                    print_log(e)
+                                    sys.exit()
+                                except Exception as e:
+                                    traceback.print_exc()
+
+                                print_log("- Done")
+                            
+                            else:
+                                print_log("- File already exists")
+                            
 
                     channel_csv_file.close()
                     channel_index += 1
