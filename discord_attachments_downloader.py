@@ -437,10 +437,10 @@ def main():
                     if valid:
 
                         class AttachmentFile:
-                            def __init__(self, msg_id, file_index, file_name, url):
+                            def __init__(self, msg_id, file_index, file_ext, url):
                                 self.msg_id = msg_id
                                 self.file_index = file_index
-                                self.file_name = file_name
+                                self.file_ext = file_ext
                                 self.url = url
 
 
@@ -494,7 +494,7 @@ def main():
 
                         for attachment in attachments_list:
 
-                            file_name = attachment.msg_id + "_" + attachment.file_index + "_" + attachment.file_index
+                            file_name = attachment.msg_id + "_" + attachment.file_index + "_" + attachment.file_ext
                             
                             file_path = ""
 
