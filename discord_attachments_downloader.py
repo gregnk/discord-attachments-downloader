@@ -283,8 +283,6 @@ def main():
 
                 while channel_index < channel_len:
 
-
-
                     # The name of the channel and the server in the JSON file
 
                     # TODO: Clean up var names, continue consolidating code
