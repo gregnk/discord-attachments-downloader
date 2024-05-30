@@ -387,7 +387,7 @@ def main():
                         update_terminal_window_title(dl_display_str)
 
 
-                        # check for the messages file
+                        # Check for the messages file
                         if (os.path.isfile("{}{}messages.csv".format(channel_dir, get_os_dir_slash()))):
                             has_csv = True
                             valid = True
