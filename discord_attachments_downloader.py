@@ -493,7 +493,7 @@ def main():
                                             url_file_name = re.sub(r"\?.*", "", remove_end_newline(os.path.basename(word))) # Remove url args
                                             attachments_list.append(AttachmentFile(msg_id, str(attachment_list_count), url_file_name, word))
 
-                                    attachment_list_count += 1
+                                        attachment_list_count += 1
 
                         for attachment in attachments_list:
 
