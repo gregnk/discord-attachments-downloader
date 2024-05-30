@@ -1,3 +1,9 @@
+v1.5.0 (2024-05-30)
+------------------------
+* Added JSON data support
+* Added prefix to logfile name
+* Added server ID to folder names
+
 v1.4.3 (2024-05-03)
 ------------------------
 * Added validation to check if messages.csv exists for a channel
