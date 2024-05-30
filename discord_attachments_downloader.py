@@ -346,6 +346,7 @@ def main():
                         print_current_time()
                         print_log(BORDER_STR)
                         
+                        # Check for the messages file
                         if (os.path.isfile("{}{}messages.csv".format(channel_dir, get_os_dir_slash()))):
                             has_csv = True
                             valid = True
@@ -354,6 +355,7 @@ def main():
                             has_json = True
                             valid = True
 
+                        # Check if valid
                         if (has_csv == False and has_json == False):
                             print_log(BORDER_STR)
                             print_log("Neither {}{}messages.csv or {}{}messages.csv exists".format(channel_dir, get_os_dir_slash()))
