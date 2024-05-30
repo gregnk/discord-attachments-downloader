@@ -1,3 +1,7 @@
+v1.5.1 (2024-05-30)
+------------------------
+* Fixed a bug related to the filenames of multi-attachment messages in JSON
+
 v1.5.0 (2024-05-30)
 ------------------------
 * Added JSON data support
