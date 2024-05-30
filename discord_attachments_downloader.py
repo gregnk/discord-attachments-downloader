@@ -297,6 +297,8 @@ def main():
                     server_channel_attachments_dir = ""
 
                     # Control vars
+                    has_csv = False
+                    has_json = False
                     valid = False
                     thread = False
                     thread_parent = ""
@@ -344,9 +346,17 @@ def main():
                         print_current_time()
                         print_log(BORDER_STR)
                         
-                        if (os.path.isfile("{}{}messages.csv".format(channel_dir, get_os_dir_slash())) == False):
+                        if (os.path.isfile("{}{}messages.csv".format(channel_dir, get_os_dir_slash()))):
+                            has_csv = True
+                            valid = True
+
+                        if (os.path.isfile("{}{}messages.json".format(channel_dir, get_os_dir_slash()))):
+                            has_json = True
+                            valid = True
+
+                        if (has_csv == False and has_json == False):
                             print_log(BORDER_STR)
-                            print_log("{}{}messages.csv does not exist".format(channel_dir, get_os_dir_slash()))
+                            print_log("Neither {}{}messages.csv or {}{}messages.csv exists".format(channel_dir, get_os_dir_slash()))
                             print_current_time()
                             print_log(BORDER_STR)
 
@@ -376,6 +386,16 @@ def main():
                         dl_display_str = "{} ({}/{})".format(dm_attachments_name, channel_index, channels_len_str)                
                         update_terminal_window_title(dl_display_str)
 
+
+                        # check for the messages file
+                        if (os.path.isfile("{}{}messages.csv".format(channel_dir, get_os_dir_slash()))):
+                            has_csv = True
+                            valid = True
+
+                        if (os.path.isfile("{}{}messages.json".format(channel_dir, get_os_dir_slash()))):
+                            has_json = True
+                            valid = True
+
                         # Check if valid
                         if (str(dm_attachments_name) == "None"):
                             print_log(BORDER_STR)
@@ -383,9 +403,9 @@ def main():
                             print_current_time()
                             print_log(BORDER_STR)
 
-                        elif (os.path.isfile("{}{}messages.csv".format(channel_dir, get_os_dir_slash())) == False):
+                        elif (has_csv == False and has_json == False):
                             print_log(BORDER_STR)
-                            print_log("{}{}messages.csv does not exist".format(channel_dir, get_os_dir_slash()))
+                            print_log("Neither {}{}messages.csv or {}{}messages.csv exists".format(channel_dir, get_os_dir_slash()))
                             print_current_time()
                             print_log(BORDER_STR)
 
