@@ -478,11 +478,12 @@ def main():
                             channel_json_data = json.load(channel_json_file)
 
                             for entry in channel_json_data:
+                                msg_id = str(entry["ID"])
                                 if (entry["Attachments"] != ""):
                                     attachments_list_json = entry["Attachments"].split(" ")
 
                                     attachment_list_count = 0
-                                    
+
                                     for word in attachments_list_json:
                                         
                                         # If it contains an attachment link, download it
