@@ -546,7 +546,9 @@ def main():
                                 print_log("- File already exists")
                             
 
-                    channel_csv_file.close()
+                    if (has_csv):
+                        channel_csv_file.close()
+                        
                     channel_index += 1
                     channel_index_1 += 1
                     
