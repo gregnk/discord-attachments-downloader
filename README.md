@@ -27,6 +27,6 @@ The files will be downloaded to `attachments/`
 
 Copyright
 -------------------------------------
-(c) 2023-2024 Gregory Karastergios
+(c) 2023-2025 Gregory Karastergios
 
 This program is distributed under the ISC License. See LICENSE.txt for more details.
