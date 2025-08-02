@@ -358,7 +358,7 @@ def main():
                         # Check if valid
                         if (has_csv == False and has_json == False):
                             print_log(BORDER_STR)
-                            print_log("Neither {}{}messages.csv or {}{}messages.csv exists".format(channel_dir, get_os_dir_slash()))
+                            print_log("Neither {}{}messages.csv or {}{}messages.json exists".format(channel_dir, get_os_dir_slash(), channel_dir, get_os_dir_slash()))
                             print_current_time()
                             print_log(BORDER_STR)
 
