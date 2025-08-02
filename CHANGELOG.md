@@ -1,6 +1,10 @@
 Changelog
 ========================
 
+v1.5.2 (2025-08-02)
+------------------------
+* Fixed bugs related to legacy CSV files
+
 v1.5.1 (2024-05-30)
 ------------------------
 * Fixed a bug related to the filenames of multi-attachment messages in JSON

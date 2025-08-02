@@ -1,5 +1,5 @@
 LICENSE_TEXT = '''
-discord-attachments-downloader v1.5.1 (2024-05-30)
+discord-attachments-downloader v1.5.2 (2025-08-02)
 https://github.com/gregnk/discord-attachments-downloader
 
 Copyright (c) 2023-2025 Gregory Karastergios
