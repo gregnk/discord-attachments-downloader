@@ -1,5 +1,5 @@
 '''
-(c) 2023 Gregory Karastergios
+(c) 2023-2025 Gregory Karastergios
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -22,6 +22,9 @@ VERSION = sys.argv[1]
 INPUT_PATH = "dist/v{}/".format(VERSION)
 OUTPUT_FILE_PATH_NAME = INPUT_PATH + "discord-attachments-downloader-v{}".format(VERSION)
 
+exceptions_incurred = False
+exception_files = []
+
 def get_hashes(file_list, hash):
     OUTPUT_FILE_PATH = OUTPUT_FILE_PATH_NAME + ".{}".format(hash.name)
     print("OUTFILE_FILE_PATH = %s" % OUTPUT_FILE_PATH_NAME)
@@ -35,14 +38,13 @@ def get_hashes(file_list, hash):
     f = open(OUTPUT_FILE_PATH, "a")
 
     for input_file_path in file_list:
-
-        input_file_name = os.path.basename(input_file_path)
-
-        print(input_file_path)
-
-        outfile_contents_line = ""
-
         try:
+            input_file_name = os.path.basename(input_file_path)
+
+            print(input_file_path)
+
+            outfile_contents_line = ""
+
             with open(input_file_path, "rb") as input_file:
                 for byte_block in iter(lambda: input_file.read(4096), b""):
                     hash.update(byte_block)
@@ -50,6 +52,10 @@ def get_hashes(file_list, hash):
                 outfile_contents_line += hash.hexdigest()
 
         except Exception as e:
+            global exceptions_incurred
+            global exception_files
+            exceptions_incurred = True
+            exception_files.append(input_file_path)
             print(str(e))
 
         outfile_contents_line += " *" + input_file_name + "\n"
@@ -87,6 +93,12 @@ def main():
     
     print(BORDER_STR)
     print("Done")
+    
+    if (exceptions_incurred == True):
+        print("==== WARNING: An exception was incurred for the following files:")
+        for file in exception_files:
+            print(file)
+            
     # except Exception as e:
     #     print(str(e))
     #     pass
