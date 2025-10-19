@@ -1,6 +1,11 @@
 Changelog
 ========================
 
+v1.5.3 (2025-10-19)
+------------------------
+* Fixed an issue related to the build process (py zipapp wasn't building correctly)
+* Added an exception check to the build script
+
 v1.5.2 (2025-08-02)
 ------------------------
 * Fixed bugs related to legacy CSV files
